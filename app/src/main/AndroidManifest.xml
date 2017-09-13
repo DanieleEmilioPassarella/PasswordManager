@@ -22,7 +22,14 @@
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".ModifyPasswordActivity"
-            android:parentActivityName=".HomeActivity"></activity>
+            android:parentActivityName=".HomeActivity" />
+        <activity
+            android:name=".AddNewCategory"
+            android:parentActivityName=".HomeActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".HomeActivity" />
+        <activity android:name=".RecoveryPin"></activity>
     </application>
 
 </manifest>

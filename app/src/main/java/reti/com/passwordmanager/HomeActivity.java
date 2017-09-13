@@ -2,14 +2,18 @@ package reti.com.passwordmanager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,34 +22,80 @@ import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import reti.com.passwordmanager.models.CategoryEntry;
+import reti.com.passwordmanager.models.CategoryEntryDao;
 import reti.com.passwordmanager.models.DaoMaster;
 import reti.com.passwordmanager.models.DaoSession;
 import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
+import reti.com.passwordmanager.utility.Utility;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ListView passwordListView;
     private TextView tv_noEntry;
+    private Spinner spinnerCategory;
 
     private DaoSession daoSession;
     public static final String DB_FILE = "PASSWORD_MANAGER_DB";
     public static final String ITEM_TO_MODIFY = "ITEM_TO_MODIFY";
+    public static final String CATEGORY_SAVED_INSTANCE = "CURRENT_CATEGORY";
+    private String currentCategory;
+    private SharedPreferences.Editor sharedEditor;
+    private SharedPreferences shared;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
+
+        Utility.setCurrentTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle("Password Manager");
 
+        shared = getSharedPreferences(CATEGORY_SAVED_INSTANCE,MODE_PRIVATE);
+        sharedEditor = shared.edit();
+
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,HomeActivity.DB_FILE);
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
 
         tv_noEntry = (TextView) findViewById(R.id.tv_noEntry);
-
         passwordListView = (ListView) findViewById(R.id.listView_password);
+        spinnerCategory = (Spinner) findViewById(R.id.sp_choose_category);
 
-        setListView();
+        setSpinnerCategory();
+
+        if(savedInstanceState != null){
+            if(savedInstanceState.containsKey(CATEGORY_SAVED_INSTANCE)){
+                String category = savedInstanceState.getString(CATEGORY_SAVED_INSTANCE);
+                if(category!=null){
+                    currentCategory = category;
+                    setListViewOfCategory(category);
+                }
+            }
+
+        }else{
+            currentCategory = spinnerCategory.getSelectedItem().toString();
+        }
+
+        // override onItemSelected of spinnerCategoryChooser to set correct list view of password
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categorySelected = spinnerCategory.getItemAtPosition(position).toString();
+                setListViewOfCategory(categorySelected);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         //show info of item
         passwordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,12 +119,15 @@ public class HomeActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent modifyItem = new Intent(HomeActivity.this,ModifyPasswordActivity.class);
                                 modifyItem.putExtra(ITEM_TO_MODIFY,itemClicked);
+                                sharedEditor.putString(CATEGORY_SAVED_INSTANCE,getCurrentCategory());
+                                sharedEditor.commit();
                                 startActivityForResult(modifyItem,2);
                             }
                         })
                         .show();
             }
         });
+
         //remove item from list
         passwordListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -84,11 +137,11 @@ public class HomeActivity extends AppCompatActivity {
                 alerRemoveItem
                         .setTitle("Remove Item")
                         .setMessage("Item: "+itemClicked.dominio+", "+itemClicked.username+ "\r\nDo you want remove it?")
-                        .setPositiveButton("Si, Cancella", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Si, Elimina", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 removeFromDb(itemClicked);
-                                setListView();
+                                setListViewOfCategory(spinnerCategory.getSelectedItem().toString());
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -103,6 +156,20 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        setCategoryFromShared();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedEditor.putString(CATEGORY_SAVED_INSTANCE,getCurrentCategory());
+        sharedEditor.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outBundle){
+        super.onSaveInstanceState(outBundle);
+        outBundle.putString(CATEGORY_SAVED_INSTANCE,currentCategory);
     }
 
     @Override
@@ -113,11 +180,27 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        String category = getCurrentCategory();
         switch (item.getItemId()){
             case R.id.addPassword:{
-                //do something
                 Intent addNewPassword = new Intent(this,AddPasswordEntry.class);
+                addNewPassword.putExtra(HomeActivity.CATEGORY_SAVED_INSTANCE,category);
+                sharedEditor.putString(CATEGORY_SAVED_INSTANCE,category);
+                sharedEditor.commit();
                 startActivityForResult(addNewPassword,1);
+                break;
+            }
+            case R.id.addCategory:{
+                Intent addNewCategory = new Intent(this,AddNewCategory.class);
+                addNewCategory.putExtra(HomeActivity.CATEGORY_SAVED_INSTANCE,category);
+                sharedEditor.putString(CATEGORY_SAVED_INSTANCE,category);
+                sharedEditor.commit();
+                startActivityForResult(addNewCategory,1);
+                break;
+            }
+            case R.id.settings:{
+                Intent settingsIntent = new Intent(this,SettingsActivity.class);
+                startActivity(settingsIntent);
                 break;
             }
         }
@@ -127,18 +210,51 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            setListView();
+        if (resultCode == RESULT_OK) {
+            setSpinnerCategory();
+            setCategoryFromShared();
         }
     }
 
-    private void setListView(){
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,DB_FILE);
-        Database db = helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+    private void setSelectedItemSpinner(String category){
+        int numberOfItem = spinnerCategory.getAdapter().getCount();
+        int positionCategory = 0;
+        for(int i = 0; i < numberOfItem; i++){
+            if(spinnerCategory.getItemAtPosition(i).toString().equals(category)){
+                positionCategory = i;
+                break;
+            }
+        }
+        spinnerCategory.setSelection(positionCategory);
+    }
+
+    private String getCurrentCategory(){
+        return spinnerCategory.getSelectedItem().toString();
+    }
+
+    private void setSpinnerCategory(){
+        //adapter for spinner category chooser
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                getAllCategory());
+
+        //set adapter for spinner
+        spinnerCategory.setAdapter(spinnerAdapter);
+    }
+
+    private void setCategoryFromShared(){
+        if(shared.contains(CATEGORY_SAVED_INSTANCE)){
+            String categoryFromShared = shared.getString(CATEGORY_SAVED_INSTANCE,null);
+            if(categoryFromShared!=null){
+                setSelectedItemSpinner(categoryFromShared);
+                setListViewOfCategory(categoryFromShared);
+            }
+        }
+    }
+
+    private void setListViewOfCategory(String category){
         PasswordEntryDao daoPassword = daoSession.getPasswordEntryDao();
         //get all entry order descendent by EntryId
-        List<PasswordEntry> entryList = daoPassword.queryBuilder().orderAsc(PasswordEntryDao.Properties.Dominio).list();
+        List<PasswordEntry> entryList = daoPassword.queryBuilder().where(PasswordEntryDao.Properties.Category.eq(category)).orderAsc(PasswordEntryDao.Properties.Dominio).list();
         //create new adapter string for ListView
         PasswordAdapter arrayListPassword = new PasswordAdapter(this,R.layout.listview_adapter_passwordentry);
         //populate arrayAdapter
@@ -148,17 +264,13 @@ public class HomeActivity extends AppCompatActivity {
                 arrayListPassword.add(pw);
             }
         }else {
-            tv_noEntry.setText("No Entry Add Once");
+            tv_noEntry.setText(R.string.no_password);
             tv_noEntry.setVisibility(View.VISIBLE);
         }
         passwordListView.setAdapter(arrayListPassword);
     }
 
     private void removeFromDb(PasswordEntry pe){
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,DB_FILE);
-        Database db = helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
-
         DeleteQuery<PasswordEntry> tableDeleteQuery = daoSession.queryBuilder(PasswordEntry.class)
                 .where(
                 PasswordEntryDao.Properties.Dominio.eq(pe.dominio),
@@ -167,5 +279,21 @@ public class HomeActivity extends AppCompatActivity {
         ).buildDelete();
         tableDeleteQuery.executeDeleteWithoutDetachingEntities();
         daoSession.clear();
+    }
+
+    private ArrayList<String> getAllCategory(){
+        ArrayList<String> result = new ArrayList<>();
+        CategoryEntryDao categoryEntryDao = daoSession.getCategoryEntryDao();
+        if(categoryEntryDao.loadAll().size() != 0){
+            List<CategoryEntry> entryList = categoryEntryDao.loadAll();
+            for(CategoryEntry entry: entryList){
+                result.add(entry.category);
+            }
+            return result;
+        }else{
+            categoryEntryDao.insert(new CategoryEntry("Default"));
+            result.add("Default");
+            return result;
+        }
     }
 }

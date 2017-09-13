@@ -17,11 +17,21 @@ public class PasswordEntry implements Serializable{
     @NotNull
     public String password;
 
+    public String category;
+
 
     public PasswordEntry(String dominio,String username,String password){
         this.dominio = dominio;
         this.username=username;
         this.password=password;
+        this.category = "Default";
+    }
+
+    public PasswordEntry(String dominio,String username,String password,String category){
+        this.dominio = dominio;
+        this.username=username;
+        this.password=password;
+        this.category = category;
     }
 
     public String getDominio(){
@@ -33,6 +43,8 @@ public class PasswordEntry implements Serializable{
     public String getPassword(){
         return this.password;
     }
+    public String getCategory(){return this.category;}
+
     public void setDominio(String dominio){
         this.dominio = dominio;
     }
@@ -40,4 +52,5 @@ public class PasswordEntry implements Serializable{
         this.username = username;
     }
     public void setPassword(String password){ this.password = password; }
+    public void setCategory(String category){this.category = category;}
 }
