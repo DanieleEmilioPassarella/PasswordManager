@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><style name="DraculaTheme" parent="Theme.AppCompat.DayNight.DarkActionBar" >
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/accent_material_dark</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style></resources>
