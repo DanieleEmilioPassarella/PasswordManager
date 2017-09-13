@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Debug;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -155,7 +157,8 @@ public class SettingsActivity extends AppCompatActivity {
                 List<PasswordEntry> passwordEntryList = daoSession.getPasswordEntryDao().loadAll();
 
                 try {
-                    FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE,MODE_PRIVATE);
+                    FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE,MODE_WORLD_WRITEABLE);
+
                     for(PasswordEntry password: passwordEntryList){
                         String row = "Dominio: "+password.dominio+" - Username: "+password.username+" - Password: "+password.password+"\r\n";
                         fos.write(row.getBytes());
@@ -167,8 +170,24 @@ public class SettingsActivity extends AppCompatActivity {
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+                // send file via email
+                File filelocation = new File(getFilesDir().getAbsolutePath(), Utility.PASSWORD_MANAGER_FILE);
+                Uri path = Uri.fromFile(filelocation);
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                // set the type to 'email'
+                emailIntent .setType("vnd.android.cursor.dir/email");
+                String to[] = {""};
+                emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+                // the attachment
+                emailIntent .putExtra(Intent.EXTRA_STREAM, path);
+                // the mail subject
+                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Password File");
+                startActivity(Intent.createChooser(emailIntent , "Send email..."));
+
             }
-        });
+        }); // end onlcick listener
 
     }
 
