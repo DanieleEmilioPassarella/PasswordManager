@@ -3,11 +3,13 @@ package reti.com.passwordmanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Debug;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,7 +28,9 @@ import android.widget.Toast;
 import org.greenrobot.greendao.database.Database;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import reti.com.passwordmanager.models.CategoryEntry;
@@ -156,39 +160,72 @@ public class SettingsActivity extends AppCompatActivity {
 
                 List<PasswordEntry> passwordEntryList = daoSession.getPasswordEntryDao().loadAll();
 
+                String contentFile = "";
                 try {
-                    FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE,MODE_WORLD_WRITEABLE);
+                    FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE,MODE_PRIVATE);
 
                     for(PasswordEntry password: passwordEntryList){
                         String row = "Dominio: "+password.dominio+" - Username: "+password.username+" - Password: "+password.password+"\r\n";
+                        contentFile += row;
                         fos.write(row.getBytes());
                     }
                     fos.flush();
                     fos.close();
-                    Toast.makeText(getApplicationContext(), "File PasswordManager saved:\r\n"+passwordEntryList.size()+" password.",Toast.LENGTH_LONG).show();
 
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
 
+                // copy file to external resources
+                File externalFile = copyFileToExternal(Utility.PASSWORD_MANAGER_FILE, contentFile);
 
-                // send file via email
-                File filelocation = new File(getFilesDir().getAbsolutePath(), Utility.PASSWORD_MANAGER_FILE);
-                Uri path = Uri.fromFile(filelocation);
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                // set the type to 'email'
-                emailIntent .setType("vnd.android.cursor.dir/email");
-                String to[] = {""};
-                emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
-                // the attachment
-                emailIntent .putExtra(Intent.EXTRA_STREAM, path);
-                // the mail subject
-                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Password File");
-                startActivity(Intent.createChooser(emailIntent , "Send email..."));
+                if(externalFile != null){
+                    // send that file with email attachment
+                    Uri path = Uri.fromFile(externalFile);
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    // set the type to 'email'
+                    emailIntent .setType("vnd.android.cursor.dir/email");
+                    String to[] = {""};
+                    emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+                    // the attachment
+                    emailIntent .putExtra(Intent.EXTRA_STREAM, path);
+                    // the mail subject
+                    emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Password File");
+                    startActivity(Intent.createChooser(emailIntent , "Send email..."));
+                }else {
+                    // copy goes wrong
+                    AlertDialog.Builder alertShowPassword = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+                    alertShowPassword
+                            .setTitle("Export Fail")
+                            .setMessage("The export process goes wrong.")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
+
 
             }
         }); // end onlcick listener
 
+
+    } // END onCreate()
+
+    private  File copyFileToExternal(String fileName, String content) {
+        File file = new File(this.getExternalFilesDir(null), fileName);
+        try{
+            FileOutputStream fileOutput = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutput);
+            outputStreamWriter.write(content);
+            outputStreamWriter.flush();
+            fileOutput.getFD().sync();
+            outputStreamWriter.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return file;
     }
 
     @Override
