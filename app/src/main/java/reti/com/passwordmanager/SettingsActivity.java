@@ -158,9 +158,12 @@ public class SettingsActivity extends AppCompatActivity {
                 Database db = helper.getWritableDb();
                 DaoSession daoSession = new DaoMaster(db).newSession();
 
+                // retrieve all password from all categories
                 List<PasswordEntry> passwordEntryList = daoSession.getPasswordEntryDao().loadAll();
 
                 String contentFile = "";
+
+                // save in internal private app storage
                 try {
                     FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE,MODE_PRIVATE);
 
