@@ -290,7 +290,7 @@ public class HomeActivity extends AppCompatActivity {
         }else {
             // query database with keyword
             QueryBuilder<PasswordEntry> query = daoSession.getPasswordEntryDao().queryBuilder();
-            query.where(PasswordEntryDao.Properties.Dominio.like(keyword+"%"));
+            query.where(PasswordEntryDao.Properties.Dominio.like("%"+keyword+"%"));
             // make query and get the list of result
             List<PasswordEntry> passwordFiltered = query.orderAsc().list();
 
