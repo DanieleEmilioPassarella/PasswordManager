@@ -58,4 +58,5 @@ public class PasswordAdapter extends ArrayAdapter<PasswordEntry> {
 
         return v;
     }
+
 }

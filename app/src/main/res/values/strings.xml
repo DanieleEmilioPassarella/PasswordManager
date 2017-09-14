@@ -3,6 +3,8 @@
 
     <string name="no_password">Aggiungi nuova Password</string>
 
+    <string name="no_find_result">Nessun risultato</string>
+
     <string-array name="entries_secretQuestion" >
         <item>Qual è il nome del tuo animale domestico?</item>
         <item>Il nome della via in cui sei cresciuto?</item>

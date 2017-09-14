@@ -6,12 +6,16 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,11 +37,15 @@ import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
 import reti.com.passwordmanager.utility.Utility;
 
+import static android.R.attr.category;
+
 public class HomeActivity extends AppCompatActivity {
 
     private ListView passwordListView;
     private TextView tv_noEntry;
     private Spinner spinnerCategory;
+    private EditText findEditText;
+    private PasswordAdapter arrayListPassword;
 
     private DaoSession daoSession;
     public static final String DB_FILE = "PASSWORD_MANAGER_DB";
@@ -56,6 +64,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         setTitle("Password Manager");
 
+        // remove focus from searchText
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         shared = getSharedPreferences(CATEGORY_SAVED_INSTANCE,MODE_PRIVATE);
         sharedEditor = shared.edit();
 
@@ -63,9 +74,11 @@ public class HomeActivity extends AppCompatActivity {
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
 
+        // MARK: FINDBYVIEW ID ASSIGNMENT
         tv_noEntry = (TextView) findViewById(R.id.tv_noEntry);
         passwordListView = (ListView) findViewById(R.id.listView_password);
         spinnerCategory = (Spinner) findViewById(R.id.sp_choose_category);
+        findEditText = (EditText) findViewById(R.id.findEditTextComponent);
 
         setSpinnerCategory();
 
@@ -157,6 +170,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setCategoryFromShared();
+        setEditTextActions();
     }
 
     @Override
@@ -256,7 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         //get all entry order descendent by EntryId
         List<PasswordEntry> entryList = daoPassword.queryBuilder().where(PasswordEntryDao.Properties.Category.eq(category)).orderAsc(PasswordEntryDao.Properties.Dominio).list();
         //create new adapter string for ListView
-        PasswordAdapter arrayListPassword = new PasswordAdapter(this,R.layout.listview_adapter_passwordentry);
+        arrayListPassword = new PasswordAdapter(this,R.layout.listview_adapter_passwordentry);
         //populate arrayAdapter
         if(entryList.size()>=1){
             tv_noEntry.setVisibility(View.GONE);
@@ -268,6 +282,34 @@ public class HomeActivity extends AppCompatActivity {
             tv_noEntry.setVisibility(View.VISIBLE);
         }
         passwordListView.setAdapter(arrayListPassword);
+    }
+
+    private void setListViewOfFinderInCategory(String keyword) {
+        if(keyword.isEmpty()) {
+            setListViewOfCategory(currentCategory);
+        }else {
+            // query database with keyword
+            QueryBuilder<PasswordEntry> query = daoSession.getPasswordEntryDao().queryBuilder();
+            query.where(PasswordEntryDao.Properties.Dominio.like(keyword+"%"));
+            // make query and get the list of result
+            List<PasswordEntry> passwordFiltered = query.orderAsc().list();
+
+            //create new adapter string for ListView
+            PasswordAdapter arrayListPassword = new PasswordAdapter(this,R.layout.listview_adapter_passwordentry);
+            //populate arrayAdapter
+            if(passwordFiltered.size()>=1){
+                tv_noEntry.setVisibility(View.GONE);
+                for(PasswordEntry pw : passwordFiltered){
+                    arrayListPassword.add(pw);
+                }
+                passwordListView.setAdapter(arrayListPassword);
+            }else {
+                passwordListView.setAdapter(arrayListPassword);
+                tv_noEntry.setText(R.string.no_find_result);
+                tv_noEntry.setVisibility(View.VISIBLE);
+                Log.d("FINDER LISTVIEW", "setListViewOfFinderInCategory: NESSUN RISCONTRO CON RICERCA");
+            }
+        }
     }
 
     private void removeFromDb(PasswordEntry pe){
@@ -295,5 +337,27 @@ public class HomeActivity extends AppCompatActivity {
             result.add("Default");
             return result;
         }
+    }
+
+    private void setEditTextActions() {
+
+        findEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // get keyword insered
+                String keyWord = s.toString();
+                // set list view filtered by keyword
+                setListViewOfFinderInCategory(keyWord);
+            }
+        });
     }
 }
