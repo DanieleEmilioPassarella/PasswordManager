@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button bt_recuperaPin;
     private Spinner sp_secretQuestion;
     private EditText et_secretAnsware;
+    private ImageView iv_fingerprint;
     private static SharedPreferences.Editor she;
     private static SharedPreferences sp;
 
@@ -150,27 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-
-        Utility.setCurrentTheme(this);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        setTitle("Password Manager");
-
-        //MARK: outlets
-        sp = getSharedPreferences(LOGIN_FILE, Context.MODE_PRIVATE);
-        she = sp.edit();
-
-        et_pin = (EditText) findViewById(R.id.et_pin);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        bt_login = (Button) findViewById(R.id.bt_login);
-        bt_recuperaPin = (Button) findViewById(R.id.bt_recuperaPin);
-        sp_secretQuestion = (Spinner) findViewById(R.id.sp_secretQuestion);
-        et_secretAnsware = (EditText) findViewById(R.id.et_rispostaSegretaLogin);
-        // END OUTLETS
-
+    private void initalizeFingerprintRecognition() {
         // MARK: FINGERPRINT
         // If you’ve set your app’s minSdkVersion to anything lower than 23, then you’ll need to verify that the device is running Marshmallow
         // or higher before executing any fingerprint-related code
@@ -223,29 +205,55 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-    // END FINGERPRINT
+        // END FINGERPRINT
+    }
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+
+        Utility.setCurrentTheme(this);
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        setTitle("Password Manager");
+
+        //MARK: outlets
+        sp = getSharedPreferences(LOGIN_FILE, Context.MODE_PRIVATE);
+        she = sp.edit();
+
+        et_pin = (EditText) findViewById(R.id.et_pin);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        bt_login = (Button) findViewById(R.id.bt_login);
+        bt_recuperaPin = (Button) findViewById(R.id.bt_recuperaPin);
+        sp_secretQuestion = (Spinner) findViewById(R.id.sp_secretQuestion);
+        et_secretAnsware = (EditText) findViewById(R.id.et_rispostaSegretaLogin);
+        iv_fingerprint = (ImageView) findViewById(R.id.iv_fingerprint);
+        // END OUTLETS
 
 
         // check if first access
         if(sp.contains(PIN_KEY)){
+            // not first access
             bt_recuperaPin.setVisibility(View.VISIBLE);
             sp_secretQuestion.setVisibility(View.GONE);
             et_secretAnsware.setVisibility(View.GONE);
-            tv_title.setText("Enter Pin");
+            tv_title.setText("");
             bt_login.setText("Login");
             firstAccess = false;
             et_pin.requestFocusFromTouch();
-
+            iv_fingerprint.setVisibility(View.VISIBLE);
+            initalizeFingerprintRecognition();
         }else {
+            // is first access
             bt_recuperaPin.setVisibility(View.GONE);
             sp_secretQuestion.setVisibility(View.VISIBLE);
             et_secretAnsware.setVisibility(View.VISIBLE);
-            tv_title.setText("Choose Your Pin\r\nSecret Question");
+            tv_title.setText("Secret Question");
             bt_login.setText("Confirm Pin");
             et_pin.requestFocusFromTouch();
+            iv_fingerprint.setVisibility(View.GONE);
             firstAccess = true;
         }
-
         setupInitialView();
 
 
