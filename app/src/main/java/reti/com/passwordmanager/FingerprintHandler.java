@@ -74,12 +74,16 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
-        Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
-
         Context loginActivityContext = this.loginActivity.getApplicationContext();
-        Intent homeIntent = new Intent(loginActivityContext,HomeActivity.class);
-        loginActivityContext.startActivity(homeIntent);
-        this.loginActivity.finish();
+        if(LoginActivity.FINGERPRINT_ENABLE){
+            Intent homeIntent = new Intent(loginActivityContext,HomeActivity.class);
+            loginActivityContext.startActivity(homeIntent);
+            this.loginActivity.finish();
+        }else {
+            this.loginActivity.initalizeFingerprintRecognition();
+        }
+
+
     }
 
     public void setLoginActivity(LoginActivity loginActivity){

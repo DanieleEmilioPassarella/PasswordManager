@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //MARK: properties
+    public static boolean FINGERPRINT_ENABLE = false;
     private static final String LOGIN_FILE = "LOGIN_FILE";
     private static final String PIN_KEY = "PIN_KEY";
     private static final String SECRET_QUESTION = "SECRET_QUESTION";
@@ -152,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void initalizeFingerprintRecognition() {
+    public void initalizeFingerprintRecognition() {
         // MARK: FINGERPRINT
         // If you’ve set your app’s minSdkVersion to anything lower than 23, then you’ll need to verify that the device is running Marshmallow
         // or higher before executing any fingerprint-related code
@@ -168,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!fingerprintManager.isHardwareDetected()) {
                 // If a fingerprint sensor isn’t available, then inform the user that they’ll be unable to use your app’s fingerprint functionality//
                 tv_title.setText("Your device doesn't support fingerprint authentication");
+                iv_fingerprint.setVisibility(View.GONE);
             }
             //Check whether the user has granted your app the USE_FINGERPRINT permission//
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
@@ -203,6 +205,8 @@ public class LoginActivity extends AppCompatActivity {
                     helper.startAuth(fingerprintManager, cryptoObject);
                 }
             }
+        }else {
+            iv_fingerprint.setVisibility(View.GONE);
         }
 
         // END FINGERPRINT
@@ -242,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
             firstAccess = false;
             et_pin.requestFocusFromTouch();
             iv_fingerprint.setVisibility(View.VISIBLE);
+            FINGERPRINT_ENABLE = true;
             initalizeFingerprintRecognition();
         }else {
             // is first access
@@ -252,6 +257,7 @@ public class LoginActivity extends AppCompatActivity {
             bt_login.setText("Confirm Pin");
             et_pin.requestFocusFromTouch();
             iv_fingerprint.setVisibility(View.GONE);
+            FINGERPRINT_ENABLE = false;
             firstAccess = true;
         }
         setupInitialView();
@@ -295,6 +301,7 @@ public class LoginActivity extends AppCompatActivity {
         bt_recuperaPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FINGERPRINT_ENABLE = false;
                 Intent recoveryPin = new Intent(getApplicationContext(),RecoveryPin.class);
                 startActivity(recoveryPin);
             }

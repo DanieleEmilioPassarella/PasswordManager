@@ -222,4 +222,10 @@ public class RecoveryPin extends AppCompatActivity {
             disableResetButton();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        LoginActivity.FINGERPRINT_ENABLE = true;
+    }
 }
