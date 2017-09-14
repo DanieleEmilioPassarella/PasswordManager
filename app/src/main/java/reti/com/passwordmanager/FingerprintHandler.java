@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
@@ -74,16 +75,28 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
-        Context loginActivityContext = this.loginActivity.getApplicationContext();
         if(LoginActivity.FINGERPRINT_ENABLE){
-            Intent homeIntent = new Intent(loginActivityContext,HomeActivity.class);
-            loginActivityContext.startActivity(homeIntent);
-            this.loginActivity.finish();
+
+            this.loginActivity.setupViewFingerprintAccepted();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    gotoHome();
+                }
+            },1500);
+
         }else {
             this.loginActivity.initalizeFingerprintRecognition();
         }
+    }
 
-
+    private void gotoHome() {
+        Context loginActivityContext = this.loginActivity.getApplicationContext();
+        Intent homeIntent = new Intent(loginActivityContext,HomeActivity.class);
+        loginActivityContext.startActivity(homeIntent);
+        this.loginActivity.finish();
     }
 
     public void setLoginActivity(LoginActivity loginActivity){

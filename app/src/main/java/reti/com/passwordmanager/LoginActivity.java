@@ -19,7 +19,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,7 +72,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button bt_recuperaPin;
     private Spinner sp_secretQuestion;
     private EditText et_secretAnsware;
-    private ImageView iv_fingerprint;
+    public ImageView iv_fingerprint;
+    private ImageView iv_fingerprint_big;
+    private TextView tv_authorized;
     private static SharedPreferences.Editor she;
     private static SharedPreferences sp;
 
@@ -212,6 +216,20 @@ public class LoginActivity extends AppCompatActivity {
         // END FINGERPRINT
     }
 
+    public void setupViewFingerprintAccepted(){
+        et_pin.setVisibility(View.INVISIBLE);
+        bt_login.setVisibility(View.INVISIBLE);
+        bt_recuperaPin.setVisibility(View.INVISIBLE);
+        et_pin.setFocusable(false);
+        et_pin.setFocusableInTouchMode(false);
+        iv_fingerprint.setVisibility(View.INVISIBLE);
+        iv_fingerprint_big.setVisibility(View.VISIBLE);
+        tv_authorized.setVisibility(View.VISIBLE);
+        // hide keyboard
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(),0);
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
@@ -221,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setTitle("Password Manager");
 
-        //MARK: outlets
+        //MARK: OUTLETS
         sp = getSharedPreferences(LOGIN_FILE, Context.MODE_PRIVATE);
         she = sp.edit();
 
@@ -232,6 +250,9 @@ public class LoginActivity extends AppCompatActivity {
         sp_secretQuestion = (Spinner) findViewById(R.id.sp_secretQuestion);
         et_secretAnsware = (EditText) findViewById(R.id.et_rispostaSegretaLogin);
         iv_fingerprint = (ImageView) findViewById(R.id.iv_fingerprint);
+        iv_fingerprint_big = (ImageView) findViewById(R.id.iv_finger_big);
+        tv_authorized = (TextView) findViewById(R.id.tv_autorized_big);
+
         // END OUTLETS
 
 
