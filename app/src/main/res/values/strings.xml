@@ -12,4 +12,13 @@
         <item>Qual è il tuo film preferito?</item>
     </string-array>
 
+    <!--> RESOURCES FOR FINGERPRINT  </!-->
+    <string name="fingerprint_error">Errore di autenticazione</string>
+    <string name="fingerprint_fail">Impronta non registrata</string>
+
+    <string name="fingerprint_supportError">Il tuo dispositivo non supporta il riconoscimento delle impronte digitali.</string>
+    <string name="fingerprint_permissionError">Abilita il riconoscimento delle impronte, nelle impostazioni del dispositivo.</string>
+    <string name="fingerprint_noOneExist">Nessuna impronta registrata. Registrane una nelle impostazioni del dispositivo.</string>
+    <string name="fingerprint_enableLockScreen">Abilita la schermata di blocco con riconoscimento delle impronte.</string>
+
 </resources>

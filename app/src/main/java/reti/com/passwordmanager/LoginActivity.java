@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -20,6 +22,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -74,9 +80,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_secretAnsware;
     public ImageView iv_fingerprint;
     private ImageView iv_fingerprint_big;
-    private TextView tv_authorized;
     private static SharedPreferences.Editor she;
     private static SharedPreferences sp;
+    public View mainView;
 
 
     private class FingerprintException extends Exception {
@@ -172,25 +178,25 @@ public class LoginActivity extends AppCompatActivity {
             //Check whether the device has a fingerprint sensor//
             if (!fingerprintManager.isHardwareDetected()) {
                 // If a fingerprint sensor isn’t available, then inform the user that they’ll be unable to use your app’s fingerprint functionality//
-                tv_title.setText("Your device doesn't support fingerprint authentication");
+                Snackbar.make(mainView,R.string.fingerprint_supportError,Snackbar.LENGTH_LONG).show();
                 iv_fingerprint.setVisibility(View.GONE);
             }
             //Check whether the user has granted your app the USE_FINGERPRINT permission//
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
                 // If your app doesn't have this permission, then display the following text//
-                tv_title.setText("Please enable the fingerprint permission");
+                Snackbar.make(mainView,R.string.fingerprint_permissionError,Snackbar.LENGTH_LONG).show();
             }
 
             //Check that the user has registered at least one fingerprint//
             if (!fingerprintManager.hasEnrolledFingerprints()) {
                 // If the user hasn’t configured any fingerprints, then display the following message//
-                tv_title.setText("No fingerprint configured. Please register at least one fingerprint in your device's Settings");
+                Snackbar.make(mainView,R.string.fingerprint_noOneExist,Snackbar.LENGTH_LONG).show();
             }
 
             //Check that the lockscreen is secured//
             if (!keyguardManager.isKeyguardSecure()) {
                 // If the user hasn’t secured their lockscreen with a PIN password or pattern, then display the following text//
-                tv_title.setText("Please enable lockscreen security in your device's Settings");
+                Snackbar.make(mainView,R.string.fingerprint_enableLockScreen,Snackbar.LENGTH_LONG).show();
             } else {
                 try {
                     generateKey();
@@ -217,14 +223,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setupViewFingerprintAccepted(){
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+        fadeIn.setDuration(1200);
+        AnimationSet animation = new AnimationSet(false);
+        animation.addAnimation(fadeIn);
+
         et_pin.setVisibility(View.INVISIBLE);
         bt_login.setVisibility(View.INVISIBLE);
         bt_recuperaPin.setVisibility(View.INVISIBLE);
         et_pin.setFocusable(false);
         et_pin.setFocusableInTouchMode(false);
         iv_fingerprint.setVisibility(View.INVISIBLE);
+        // image view fingerprint animation alpha
+        iv_fingerprint_big.setAnimation(animation);
         iv_fingerprint_big.setVisibility(View.VISIBLE);
-        tv_authorized.setVisibility(View.VISIBLE);
+        iv_fingerprint_big.animate();
         // hide keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(),0);
@@ -251,8 +265,7 @@ public class LoginActivity extends AppCompatActivity {
         et_secretAnsware = (EditText) findViewById(R.id.et_rispostaSegretaLogin);
         iv_fingerprint = (ImageView) findViewById(R.id.iv_fingerprint);
         iv_fingerprint_big = (ImageView) findViewById(R.id.iv_finger_big);
-        tv_authorized = (TextView) findViewById(R.id.tv_autorized_big);
-
+        mainView = findViewById(R.id.loginActivityMainView);
         // END OUTLETS
 
 
