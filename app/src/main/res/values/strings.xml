@@ -12,6 +12,17 @@
         <item>Qual è il tuo film preferito?</item>
     </string-array>
 
+
+    <!--> GENERIC STRING RESOURCE  </!-->
+    <string name="generic_cancelMessage">Annulla</string>
+    <string name="generic_deleteMessage">Elimina</string>
+    <string name="generic_createMessage">Crea</string>
+    <string name="generic_accessMessage">Accedi</string>
+    <string name="generic_refreshMessage">Aggiorna</string>
+    <string name="generic_resetMessage">Resetta</string>
+    <string name="generic_confirmMessage">Conferma</string>
+
+
     <!--> RESOURCES FOR FINGERPRINT  </!-->
     <string name="fingerprint_error">Errore di autenticazione</string>
     <string name="fingerprint_fail">Impronta non registrata</string>
@@ -20,5 +31,38 @@
     <string name="fingerprint_permissionError">Abilita il riconoscimento delle impronte, nelle impostazioni del dispositivo.</string>
     <string name="fingerprint_noOneExist">Nessuna impronta registrata. Registrane una nelle impostazioni del dispositivo.</string>
     <string name="fingerprint_enableLockScreen">Abilita la schermata di blocco con riconoscimento delle impronte.</string>
+
+    <!--> HOME ACTIVITY  </!-->
+    <string name="home_deletePassword_title">Elimina Password</string>
+    <string name="home_searchBar_hint">Cerca</string>
+    <string name="home_category_text">Categoria:</string>
+    <string name="home_anyPassword">Nessuna Password</string>
+
+    <!--> MANAGE CATEGORY ACTIVITY  </!-->
+    <string name="category_title">Modifica Categorie</string>
+    <string name="category_add_hint">Nome Categoria</string>
+
+    <!--> ADD PASSWORD ACTIVITY  </!-->
+    <string name="password_title">Nuova Password</string>
+    <string name="password_domain_hint">Dominio</string>
+    <string name="password_username_hint">Username</string>
+    <string name="password_password_hint">Password</string>
+
+    <!--> MANAGE PASSWORD ACTIVITY  </!-->
+    <string name="managePassword_title">Modifica Password</string>
+
+    <!--> RECOVER PIN ACTIVITY  </!-->
+    <string name="recoverpin_title">Domanda Segreta</string>
+    <string name="recoverpin_answare_hint">Risposta</string>
+    <string name="recoverpin_newPin_hint">Nuovo Pin</string>
+    <string name="recoverpin_confirmPin_hint">Conferma Pin</string>
+
+    <!--> SETTINGS ACTIVITY  </!-->
+    <string name="setting_button_resetPin">Resetta Pin</string>
+    <string name="setting_button_changeColorTheme">Cambia Tema</string>
+    <string name="setting_button_export">Esporta Password</string>
+    <string name="setting_oldpin_hint">Vecchio PIN</string>
+    <string name="setting_newpin_hint">Nuovo PIN</string>
+
 
 </resources>

@@ -10,46 +10,46 @@
         android:id="@+id/fixLabel_addCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="Manage Category"
+        android:text="@string/category_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_categoryName_addCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Category Name"
-        android:inputType="textPersonName"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/fixLabel_addCategory"
-        app:layout_constraintLeft_toRightOf="@+id/iv_category_create"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/category_add_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintLeft_toRightOf="@+id/iv_category_create"
         app:layout_constraintRight_toLeftOf="@+id/bt_addCategory"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/fixLabel_addCategory" />
 
     <Button
         android:id="@+id/bt_addCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:text="Create"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintTop_toTopOf="@+id/et_categoryName_addCategory"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
+        android:text="@string/generic_createMessage"
         app:layout_constraintBottom_toBottomOf="@+id/et_categoryName_addCategory"
-        android:layout_marginBottom="0dp" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_categoryName_addCategory" />
 
     <ImageView
         android:id="@+id/iv_category_create"
@@ -86,7 +86,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
-        android:text="Delete"
+        android:text="@string/generic_deleteMessage"
         app:layout_constraintBottom_toBottomOf="@+id/sp_category_manageCategory"
         app:layout_constraintLeft_toLeftOf="@+id/bt_addCategory"
         app:layout_constraintRight_toRightOf="@+id/bt_addCategory"

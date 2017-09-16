@@ -31,7 +31,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        android:text="Categoria:"
+        android:text="@string/home_category_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="Find"
+        android:hint="@string/home_searchBar_hint"
         android:inputType="textPersonName"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,13 +97,12 @@
         android:elevation="2dp"
         android:paddingBottom="0dp"
         android:paddingLeft="0dp"
-        android:text="Add New Password"
+        android:text="@string/home_anyPassword"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/findEditTextComponent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="Add New Password" />
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

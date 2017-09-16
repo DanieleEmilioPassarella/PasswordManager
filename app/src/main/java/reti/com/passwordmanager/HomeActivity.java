@@ -148,16 +148,16 @@ public class HomeActivity extends AppCompatActivity {
                 final PasswordEntry itemClicked = (PasswordEntry) passwordListView.getItemAtPosition(position);
                 AlertDialog.Builder alerRemoveItem = new AlertDialog.Builder(HomeActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
                 alerRemoveItem
-                        .setTitle("Remove Item")
-                        .setMessage("Item: "+itemClicked.dominio+", "+itemClicked.username+ "\r\nDo you want remove it?")
-                        .setPositiveButton("Si, Elimina", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.home_deletePassword_title)
+                        .setMessage("Dominio: "+itemClicked.dominio+"\r\nUsername: "+itemClicked.username)
+                        .setPositiveButton(R.string.generic_deleteMessage, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 removeFromDb(itemClicked);
                                 setListViewOfCategory(spinnerCategory.getSelectedItem().toString());
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.generic_cancelMessage, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
