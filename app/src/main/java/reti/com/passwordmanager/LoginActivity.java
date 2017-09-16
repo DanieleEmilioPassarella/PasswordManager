@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
             bt_recuperaPin.setVisibility(View.VISIBLE);
             sp_secretQuestion.setVisibility(View.GONE);
             et_secretAnsware.setVisibility(View.GONE);
-            tv_title.setText("Enter Pin");
-            bt_login.setText("Login");
+            tv_title.setText(R.string.login_title_normal);
+            bt_login.setText(R.string.login_button_normal);
             firstAccess = false;
             et_pin.requestFocusFromTouch();
 

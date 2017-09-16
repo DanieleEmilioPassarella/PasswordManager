@@ -44,7 +44,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonConfirmPin;
     private Button buttonChangeTheme;
     private Button buttonExportPassword;
-    private TextView tv_theme;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -70,7 +69,6 @@ public class SettingsActivity extends AppCompatActivity {
         buttonConfirmPin = (Button) findViewById(R.id.buttonConfirmPin);
         buttonChangeTheme = (Button) findViewById(R.id.bt_changeTheme);
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
-        tv_theme = (TextView) findViewById(R.id.tv_theme);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
         et_newPin2 = (EditText) findViewById(R.id.newPinET2);
@@ -79,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
         iv_newPin2 = (ImageView) findViewById(R.id.iv_newPin2);
 
         hideResetPinView();
-        setTitleTheme();
         disableConfirmResetPinButton();
         setEditTextAction();
 
@@ -249,11 +246,6 @@ public class SettingsActivity extends AppCompatActivity {
         buttonConfirmPin.setAlpha(1f);
         buttonConfirmPin.setFocusable(true);
         buttonConfirmPin.setFocusableInTouchMode(true);
-    }
-
-    private void setTitleTheme(){
-        String currentTheme = Utility.getTitleCurrentTheme(this);
-        tv_theme.setText("\""+currentTheme+"\""+" Theme");
     }
 
     private void setEditTextAction(){

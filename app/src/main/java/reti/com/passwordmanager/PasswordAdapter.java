@@ -39,8 +39,6 @@ public class PasswordAdapter extends ArrayAdapter<PasswordEntry> {
         if (p != null) {
             TextView domain = (TextView) v.findViewById(R.id.tv_domain_adapter);
             TextView username = (TextView) v.findViewById(R.id.tv_username_adapter);
-            ImageView iv_backDomain = (ImageView) v.findViewById(R.id.iv_backDomain);
-            ImageView iv_backUsername = (ImageView)v.findViewById(R.id.iv_backUser);
             //TextView password = (TextView) v.findViewById(R.id.tv_password_adapter);
 
             if (domain != null) {

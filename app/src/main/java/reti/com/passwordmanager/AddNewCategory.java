@@ -99,10 +99,11 @@ public class AddNewCategory extends AppCompatActivity {
                     bt_deleteCategory.setFocusable(false);
                     Toast.makeText(AddNewCategory.this,"Impossibile eliminare categoria Default",Toast.LENGTH_LONG).show();
                 }else{
+
                     AlertDialog.Builder alerRemoveItem = new AlertDialog.Builder(AddNewCategory.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
                     alerRemoveItem
-                            .setTitle("Remove Category")
-                            .setMessage("Remove :"+categorySelected+"\r\nAre you sure?")
+                            .setTitle(R.string.category_title)
+                            .setMessage(getString(R.string.category_message1) +categorySelected +"\r\n"+ getString(R.string.category_message2))
                             .setPositiveButton("Si, Elimina", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -111,7 +112,7 @@ public class AddNewCategory extends AppCompatActivity {
                                     finish();
                                 }
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -126,7 +127,7 @@ public class AddNewCategory extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String category = et_category.getText().toString();
-                if(category.equals("")) Toast.makeText(getApplicationContext(),"Invalid Category",Toast.LENGTH_LONG).show();
+                if(category.equals("")) Toast.makeText(getApplicationContext(),"Nome categoria non valido.",Toast.LENGTH_LONG).show();
                 else {
                     createCategory(category);
                     setResult(RESULT_OK);

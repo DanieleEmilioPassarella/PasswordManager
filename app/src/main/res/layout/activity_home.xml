@@ -45,7 +45,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="Find"
+        android:hint="Cerca"
         android:inputType="textPersonName"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"

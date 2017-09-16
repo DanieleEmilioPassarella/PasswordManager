@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setTitle("Password Manager");
+        setTitle("");
 
         // remove focus from searchText
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -148,16 +148,16 @@ public class HomeActivity extends AppCompatActivity {
                 final PasswordEntry itemClicked = (PasswordEntry) passwordListView.getItemAtPosition(position);
                 AlertDialog.Builder alerRemoveItem = new AlertDialog.Builder(HomeActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
                 alerRemoveItem
-                        .setTitle("Remove Item")
-                        .setMessage("Item: "+itemClicked.dominio+", "+itemClicked.username+ "\r\nDo you want remove it?")
-                        .setPositiveButton("Si, Elimina", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.login_logClick_title)
+                        .setMessage("Dominio: " + itemClicked.dominio + "\r\nUsername: "+itemClicked.username)
+                        .setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 removeFromDb(itemClicked);
                                 setListViewOfCategory(spinnerCategory.getSelectedItem().toString());
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();

@@ -12,4 +12,16 @@
         <item>Qual è il tuo film preferito?</item>
     </string-array>
 
+    <!--> LOGIN ACTIVITY </!-->
+    <string name="login_title_normal">Inserisci Pin</string>
+    <string name="login_button_normal">Accedi</string>
+    <string name="login_logClick_title">Rimuovi Password</string>
+
+
+    <!--> ADD NEW CATEGORY ACTIVITY </!-->
+    <string name="category_title">Rimuovi categoria</string>
+    <string name="category_message1">Stai per rimuovere la categoria: </string>
+    <string name="category_message2">Tutte le password salvate in questa categoria verranno eliminate.</string>
+
+
 </resources>
