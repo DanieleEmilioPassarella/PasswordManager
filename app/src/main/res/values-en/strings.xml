@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_add_hint">Category name</string>
+    <string name="category_title">Category</string>
+    <string name="fingerprint_enableLockScreen">Please, enable screen lock with fingerprint access.</string>
+    <string name="fingerprint_error">Authentication error.</string>
+    <string name="fingerprint_fail">Not registered fingerprint.</string>
+    <string name="fingerprint_noOneExist">Any fingerprint is registered in this device. Please do that first.</string>
+    <string name="fingerprint_permissionError">Enable fingerprint access, in device\'s setting.</string>
+    <string name="fingerprint_supportError">Your device doesn\'t support fingerprint access.</string>
+    <string name="generic_accessMessage">Login</string>
+    <string name="generic_cancelMessage">Cancel</string>
+    <string name="generic_confirmMessage">Confirm</string>
+    <string name="generic_createMessage">Create</string>
+    <string name="generic_deleteMessage">Delete</string>
+    <string name="generic_refreshMessage">Refresh</string>
+    <string name="generic_resetMessage">Reset</string>
+    <string name="home_anyPassword">No Password</string>
+    <string name="home_category_text">Category:</string>
+    <string name="home_deletePassword_title">Delete Password</string>
+    <string name="home_searchBar_hint">Find</string>
+    <string name="managePassword_title">Modify Password</string>
+    <string name="no_find_result">No Result</string>
+    <string name="no_password">Add new password</string>
+    <string name="password_domain_hint">Domain</string>
+    <string name="password_password_hint">Password</string>
+    <string name="password_title">New Password</string>
+    <string name="password_username_hint">Username</string>
+    <string name="recoverpin_answare_hint">Answare</string>
+    <string name="recoverpin_confirmPin_hint">Confirm PIN</string>
+    <string name="recoverpin_newPin_hint">New PIN</string>
+    <string name="recoverpin_title">Secret Question</string>
+    <string name="setting_button_changeColorTheme">Change Theme</string>
+    <string name="setting_button_export">Export Password</string>
+    <string name="setting_button_resetPin">Reset PIN</string>
+    <string name="setting_newpin_hint">New PIN</string>
+    <string name="setting_oldpin_hint">Old PIN</string>
+</resources>

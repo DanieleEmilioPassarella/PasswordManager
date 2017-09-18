@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_add_hint">Nome Categoria</string>
+    <string name="category_title">Modifica Categoria</string>
+    <string name="fingerprint_enableLockScreen">Abilita la schermata di blocco con riconoscimento delle impronte.</string>
+    <string name="fingerprint_error">Errore di autenticazione.</string>
+    <string name="fingerprint_fail">Impronta non registrata.</string>
+    <string name="fingerprint_noOneExist">Nessuna impronta registrata. Registrane una nelle impostazioni del dispositivo.</string>
+    <string name="fingerprint_permissionError">Abilita il riconoscimento delle impronte, nelle importazioni del dispositivo.</string>
+    <string name="fingerprint_supportError">Il tuo dispositivo non supporta il riconoscimento delle impronte digitali.</string>
+    <string name="generic_accessMessage">Accedi</string>
+    <string name="generic_cancelMessage">Annulla</string>
+    <string name="generic_confirmMessage">Conferma</string>
+    <string name="generic_createMessage">Crea</string>
+    <string name="generic_deleteMessage">Elimina</string>
+    <string name="generic_refreshMessage">Aggiorna</string>
+    <string name="generic_resetMessage">Resetta</string>
+    <string name="home_anyPassword">Nessuna Password</string>
+    <string name="home_category_text">Categoria:</string>
+    <string name="home_deletePassword_title">Elimina Password</string>
+    <string name="home_searchBar_hint">Cerca</string>
+    <string name="managePassword_title">Modifica Password</string>
+    <string name="no_find_result">Nessun Risultato</string>
+    <string name="no_password">Aggiungi nuova password</string>
+    <string name="password_domain_hint">Dominio</string>
+    <string name="password_password_hint">Password</string>
+    <string name="password_title">Nuova Password</string>
+    <string name="password_username_hint">Username</string>
+    <string name="recoverpin_answare_hint">Risposta</string>
+    <string name="recoverpin_confirmPin_hint">Conferma PIN</string>
+    <string name="recoverpin_newPin_hint">Nuovo PIN</string>
+    <string name="recoverpin_title">Domanda Segreta</string>
+    <string name="setting_button_changeColorTheme">Cambia Tema</string>
+    <string name="setting_button_export">Esporta Password</string>
+    <string name="setting_button_resetPin">Resetta PIN</string>
+    <string name="setting_newpin_hint">Nuovo PIN</string>
+    <string name="setting_oldpin_hint">Vecchio PIN</string>
+</resources>

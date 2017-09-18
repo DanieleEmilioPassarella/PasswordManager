@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Password Manager</string>
+    <string name="app_name" translatable="false">Password Manager</string>
 
     <string name="no_password">Aggiungi nuova Password</string>
 
@@ -40,7 +40,7 @@
 
     <!--> MANAGE CATEGORY ACTIVITY  </!-->
     <string name="category_title">Modifica Categorie</string>
-    <string name="category_add_hint">Nome Categoria</string>
+    <string name="category_add_hint">Category Name</string>
 
     <!--> ADD PASSWORD ACTIVITY  </!-->
     <string name="password_title">Nuova Password</string>
