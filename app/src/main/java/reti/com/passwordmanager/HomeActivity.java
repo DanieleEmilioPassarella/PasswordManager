@@ -217,6 +217,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(settingsIntent);
                 break;
             }
+            case R.id.filter: {
+                Intent filterIntent = new Intent(this, FilterActivity.class);
+                startActivityForResult(filterIntent,2);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -265,10 +270,99 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void writeDefaultFilter() {
+        // write in shared preferences first item of array string from strings.xml
+        sharedEditor.putString(Utility.ORDERBY_FILTER_KEY, getString(R.string.filter_spinner_orderby_dominio));
+
+        sharedEditor.putString(Utility.SORTBY_FILTER_KEY, getString(R.string.filter_spinner_sorting_ascendent));
+
+        sharedEditor.commit();
+    }
+
+    private int getOrderFilter() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Utility.FILTER_SHAREDPREFERENCES_KEY,MODE_PRIVATE);
+        String[] orderArraySharedPreference = getResources().getStringArray(R.array.filter_order);
+        String  orderChoosed = sharedPreferences.getString(Utility.ORDERBY_FILTER_KEY,null);
+
+        if(orderChoosed == null){
+            // isn't set by default
+            writeDefaultFilter();
+            return 0;
+
+        }else {
+            if(orderChoosed.equals(orderArraySharedPreference[0])){
+                return 0;
+            }else {
+                return 1;
+            }
+        }
+    }
+    private int getSortFilter() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Utility.FILTER_SHAREDPREFERENCES_KEY,MODE_PRIVATE);
+        String[] sortArraySharedPreference = getResources().getStringArray(R.array.filter_sorting);
+        String sortChoosed = sharedPreferences.getString(Utility.SORTBY_FILTER_KEY,null);
+        if(sortChoosed == null){
+            // isn't set by default
+            writeDefaultFilter();
+            return 0;
+
+        }else {
+            if(sortChoosed.equals(sortArraySharedPreference[0])){
+                return 0;
+            }else {
+                return 1;
+            }
+        }
+    }
+
+    private QueryBuilder getSortedAndOrderedQuery(QueryBuilder query) {
+        int orderChoosed = getOrderFilter();
+        int sortChoosed = getSortFilter();
+
+        switch(sortChoosed) {
+            case 0:
+                // sort ascendent
+                switch(orderChoosed) {
+                    case 0:
+                        // order by domain
+                        query.orderAsc(PasswordEntryDao.Properties.Dominio);
+                        break;
+                    case 1:
+                        // order by username
+                        query.orderAsc(PasswordEntryDao.Properties.Username);
+                        break;
+                    default: break;
+                }
+                break;
+            case 1:
+                // sort descendent
+                switch(orderChoosed) {
+                    case 0:
+                        // order by domain
+                        query.orderDesc(PasswordEntryDao.Properties.Dominio);
+                        break;
+                    case 1:
+                        // order by username
+                        query.orderDesc(PasswordEntryDao.Properties.Username);
+                        break;
+                    default: break;
+                }
+                break;
+            default: break;
+        }
+        return query;
+    }
+
     private void setListViewOfCategory(String category){
         PasswordEntryDao daoPassword = daoSession.getPasswordEntryDao();
-        //get all entry order descendent by EntryId
-        List<PasswordEntry> entryList = daoPassword.queryBuilder().where(PasswordEntryDao.Properties.Category.eq(category)).orderAsc(PasswordEntryDao.Properties.Dominio).list();
+        List<PasswordEntry> entryList;
+
+        // make query from shared preference EX: sorted & ordered by Domain, order ascendent
+        QueryBuilder query = getSortedAndOrderedQuery(daoPassword.queryBuilder().where(PasswordEntryDao.Properties.Category.eq(category)));
+
+        // get list from query
+        entryList = query.list();
+
         //create new adapter string for ListView
         arrayListPassword = new PasswordAdapter(this,R.layout.listview_adapter_passwordentry);
         //populate arrayAdapter

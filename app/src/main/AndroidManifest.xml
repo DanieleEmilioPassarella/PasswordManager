@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="reti.com.passwordmanager">
 
-    <uses-feature android:name="android.hardware.fingerprint"
-        android:required="false"/>
-    <uses-permission
-        android:name="android.permission.USE_FINGERPRINT" />
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -37,7 +37,8 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".HomeActivity" />
-        <activity android:name=".RecoveryPin"></activity>
+        <activity android:name=".RecoveryPin" />
+        <activity android:name=".FilterActivity"></activity>
     </application>
 
 </manifest>

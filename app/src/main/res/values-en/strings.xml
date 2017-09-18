@@ -35,4 +35,14 @@
     <string name="setting_button_resetPin">Reset PIN</string>
     <string name="setting_newpin_hint">New PIN</string>
     <string name="setting_oldpin_hint">Old PIN</string>
+    <string name="setting_button_import">Import From File</string>
+    <string name="filter_order_text">Order by:</string>
+    <string name="filter_sorting_text">Sorting:</string>
+    <string name="generic_applyMessage">Apply</string>
+    <string name="filter_spinner_orderby_dominio">Domain</string>
+    <string name="filter_spinner_orderby_username">Username</string>
+    <string name="filter_spinner_sorting_ascendent">Ascending</string>
+    <string name="filter_spinner_sorting_descendent">Descending</string>
+    <string name="filter_alert_title">Reset Filter</string>
+    <string name="filter_alert_message">This operation is irreversible</string>
 </resources>

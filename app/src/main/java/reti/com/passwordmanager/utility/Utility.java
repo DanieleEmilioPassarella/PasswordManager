@@ -15,9 +15,15 @@ public class Utility {
     public static String PASSWORD_MANAGER_FILE = "PasswordManager.txt";
     public static String THEME_SHARED_PREFERENCES = "THEME";
     public static String CURRENT_THEME_KEY = "CURRENT_THEME";
+
+    public static String FILTER_SHAREDPREFERENCES_KEY = "FILTER_SHARED_PREFERENCES";
+    public static String ORDERBY_FILTER_KEY = "ORDERBY_FILTER";
+    public static String SORTBY_FILTER_KEY = "SORTBY_FILTER";
+
     public static int DEFAULT_THEME_KEY = R.style.AppTheme;
     public static int DRACULA_THEME_KEY = R.style.DraculaTheme;
     public static int GREEN_THEME_KEY = R.style.GreenTheme;
+
     public static int[] themes = new int[]{DEFAULT_THEME_KEY,DRACULA_THEME_KEY,GREEN_THEME_KEY};
 
 

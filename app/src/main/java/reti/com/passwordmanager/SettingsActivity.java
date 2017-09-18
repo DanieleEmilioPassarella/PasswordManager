@@ -48,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonConfirmPin;
     private Button buttonChangeTheme;
     private Button buttonExportPassword;
+    private Button buttonImportPassword;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -73,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonConfirmPin = (Button) findViewById(R.id.buttonConfirmPin);
         buttonChangeTheme = (Button) findViewById(R.id.bt_changeTheme);
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
+        buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
         et_newPin2 = (EditText) findViewById(R.id.newPinET2);
@@ -208,7 +210,25 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             }
-        }); // end onlcick listener
+        });
+
+        // import password from filepath
+        buttonImportPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /*
+                File path = new File(Environment.getExternalStorageDirectory(), "my_sdcard_dir/deeper_dir/notes-db");
+                path.getParentFile().mkdirs();
+
+                db = SQLiteDatabase.openOrCreateDatabase(path, null);
+                DaoMaster.createAllTables(db, true);
+
+                daoMaster = new DaoMaster(db);
+                */
+
+            }
+        });
 
 
     } // END onCreate()

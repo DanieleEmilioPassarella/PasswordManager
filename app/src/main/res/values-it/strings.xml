@@ -35,4 +35,14 @@
     <string name="setting_button_resetPin">Resetta PIN</string>
     <string name="setting_newpin_hint">Nuovo PIN</string>
     <string name="setting_oldpin_hint">Vecchio PIN</string>
+    <string name="setting_button_import">Importa Password</string>
+    <string name="filter_order_text">Ordina per:</string>
+    <string name="filter_sorting_text">Ordinamento:</string>
+    <string name="generic_applyMessage">Applica</string>
+    <string name="filter_spinner_orderby_dominio">Dominio</string>
+    <string name="filter_spinner_orderby_username">Username</string>
+    <string name="filter_spinner_sorting_ascendent">Ascendente</string>
+    <string name="filter_spinner_sorting_descendent">Discendente</string>
+    <string name="filter_alert_title">Resetta Filtri</string>
+    <string name="filter_alert_message">Questa operazione è irreversibile.</string>
 </resources>

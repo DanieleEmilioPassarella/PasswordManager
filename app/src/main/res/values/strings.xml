@@ -5,11 +5,21 @@
 
     <string name="no_find_result">Nessun risultato</string>
 
-    <string-array name="entries_secretQuestion" >
+    <string-array name="entries_secretQuestion">
         <item>Qual è il nome del tuo animale domestico?</item>
         <item>Il nome della via in cui sei cresciuto?</item>
         <item>Il nome del tuo amico di infanzia?</item>
         <item>Qual è il tuo film preferito?</item>
+    </string-array>
+
+    <string-array name="filter_order">
+        <item name="filter_domain">@string/filter_spinner_orderby_dominio</item>
+        <item name="filter_username">@string/filter_spinner_orderby_username</item>
+    </string-array>
+
+    <string-array name="filter_sorting">
+        <item name="filter_ascending">@string/filter_spinner_sorting_ascendent</item>
+        <item name="filter_descending">@string/filter_spinner_sorting_descendent</item>
     </string-array>
 
 
@@ -63,6 +73,16 @@
     <string name="setting_button_export">Esporta Password</string>
     <string name="setting_oldpin_hint">Vecchio PIN</string>
     <string name="setting_newpin_hint">Nuovo PIN</string>
+    <string name="setting_button_import">Importa Password da File</string>
+    <string name="filter_order_text">Ordina per:</string>
+    <string name="filter_sorting_text">Ordinamento</string>
+    <string name="generic_applyMessage">Applica</string>
+    <string name="filter_spinner_orderby_dominio">Dominio</string>
+    <string name="filter_spinner_orderby_username">Username</string>
+    <string name="filter_spinner_sorting_ascendent">Ascendente</string>
+    <string name="filter_spinner_sorting_descendent">Discendente</string>
+    <string name="filter_alert_title">Resetta Filtri</string>
+    <string name="filter_alert_message">Questa operazione è irreversibile.</string>
 
 
 </resources>
