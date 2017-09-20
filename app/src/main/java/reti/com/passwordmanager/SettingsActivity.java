@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Debug;
 import android.os.Environment;
@@ -30,6 +32,7 @@ import org.greenrobot.greendao.database.Database;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
@@ -155,6 +158,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                 DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getApplicationContext(),HomeActivity.DB_FILE);
                 Database db = helper.getWritableDb();
+
+                // TODO: check if path is correct
+                File dbFile = new File(helper.getWritableDatabase().getPath());
+                // TODO: write dbFile to external storage
+
+
                 DaoSession daoSession = new DaoMaster(db).newSession();
 
                 // retrieve all password from all categories
@@ -232,6 +241,28 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     } // END onCreate()
+
+    // TODO: implement this method
+    public boolean importDatabase(String dbPath, SQLiteOpenHelper sqlHelperDB) throws IOException {
+
+        // Close the SQLiteOpenHelper so it will commit the created empty
+        // database to internal storage.
+        sqlHelperDB.close();
+        File newDb = new File(dbPath);
+
+        SQLiteDatabase db = sqlHelperDB.getWritableDatabase();
+
+        // TODO: check if getPath() method is correct
+        File oldDb = new File(db.getPath());
+        if (newDb.exists()) {
+            Utility.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
+            // Access the copied database so SQLiteHelper will cache it and mark
+            // it as created.
+            db.close();
+            return true;
+        }
+        return false;
+    }
 
     private  File copyFileToExternal(String fileName, String content) {
         File file = new File(this.getExternalFilesDir(null), fileName);
