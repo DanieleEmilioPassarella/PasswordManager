@@ -83,6 +83,11 @@
     <string name="filter_spinner_sorting_descendent">Discendente</string>
     <string name="filter_alert_title">Resetta Filtri</string>
     <string name="filter_alert_message">Questa operazione è irreversibile.</string>
+    <string name="tutorial_home_findbar_message">Questa è la barra di ricerca. Inserisci qui la parola chiave.</string>
+    <string name="generic_tutorial_confirmButton">CAPITO</string>
+    <string name="tutorial_home_category_message">Qui puoi scegliere la categoria da visualizzare.</string>
+    <string name="tutorial_home_category_title">Filtra, Categorie, Password, Impostazioni</string>
+    <string name="tutorial_home_findbar_title">Barra di ricerca</string>
 
 
 </resources>

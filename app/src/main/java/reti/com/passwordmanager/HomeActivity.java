@@ -11,19 +11,19 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.DeleteQuery;
-import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import reti.com.passwordmanager.models.DaoSession;
 import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
 import reti.com.passwordmanager.utility.Utility;
-
-import static android.R.attr.category;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -171,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setCategoryFromShared();
         setEditTextActions();
+        setTutorialInfo();
     }
 
     @Override
@@ -297,6 +298,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
     private int getSortFilter() {
         SharedPreferences sharedPreferences = getSharedPreferences(Utility.FILTER_SHAREDPREFERENCES_KEY,MODE_PRIVATE);
         String[] sortArraySharedPreference = getResources().getStringArray(R.array.filter_sorting);
@@ -453,5 +455,23 @@ public class HomeActivity extends AppCompatActivity {
                 setListViewOfFinderInCategory(keyWord);
             }
         });
+    }
+
+    private void setTutorialInfo() {
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+
+        String confirmButton = getString(R.string.generic_tutorial_confirmButton);
+
+        MaterialShowcaseSequence tutorialSequence = new MaterialShowcaseSequence(this,"SHOWCASE_ID");
+        tutorialSequence.setConfig(config);
+
+        tutorialSequence.addSequenceItem(spinnerCategory,getString(R.string.tutorial_home_category_title),getString(R.string.tutorial_home_category_message),confirmButton);
+        tutorialSequence.addSequenceItem(findEditText,getString(R.string.tutorial_home_findbar_title),getString(R.string.tutorial_home_findbar_message),confirmButton);
+
+
+
+        tutorialSequence.start();
     }
 }

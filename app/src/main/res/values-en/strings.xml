@@ -45,4 +45,9 @@
     <string name="filter_spinner_sorting_descendent">Descending</string>
     <string name="filter_alert_title">Reset Filter</string>
     <string name="filter_alert_message">This operation is irreversible</string>
+    <string name="tutorial_home_findbar_message">This is find bar. Input here the keyword.</string>
+    <string name="generic_tutorial_confirmButton">GOT IT</string>
+    <string name="tutorial_home_category_message">Here you can select category of account password.</string>
+    <string name="tutorial_home_category_title">Filter, Category, Password and Settings</string>
+    <string name="tutorial_home_findbar_title">Search bar</string>
 </resources>
