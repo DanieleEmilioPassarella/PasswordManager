@@ -88,6 +88,10 @@
     <string name="tutorial_home_category_message">Qui puoi scegliere la categoria da visualizzare.</string>
     <string name="tutorial_home_category_title">Filtra, Categorie, Password, Impostazioni</string>
     <string name="tutorial_home_findbar_title">Barra di ricerca</string>
+    <string name="menu_filter_title">Filtri</string>
+    <string name="menu_category_title">Modifica Categorie</string>
+    <string name="menu_password_title">Aggiungi Password</string>
+    <string name="menu_settings_title">Impostazioni</string>
 
 
 </resources>

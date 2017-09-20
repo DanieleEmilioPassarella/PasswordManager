@@ -50,4 +50,8 @@
     <string name="tutorial_home_category_message">Here you can select category of account password.</string>
     <string name="tutorial_home_category_title">Filter, Category, Password and Settings</string>
     <string name="tutorial_home_findbar_title">Search bar</string>
+    <string name="menu_filter_title">Filters</string>
+    <string name="menu_category_title">Modify Categories</string>
+    <string name="menu_password_title">Add New Password</string>
+    <string name="menu_settings_title">Settings</string>
 </resources>
