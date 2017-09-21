@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.Pair;
@@ -11,6 +14,7 @@ import android.util.Pair;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 
 import reti.com.passwordmanager.R;
@@ -28,6 +32,8 @@ public class Utility {
     public static int DEFAULT_THEME_KEY = R.style.AppTheme;
     public static int DRACULA_THEME_KEY = R.style.DraculaTheme;
     public static int GREEN_THEME_KEY = R.style.GreenTheme;
+
+    public static final int ACTIVITY_RESULT_IMPORT_FILE_INTENT = 4444;
 
     public static int[] themes = new int[]{DEFAULT_THEME_KEY,DRACULA_THEME_KEY,GREEN_THEME_KEY};
 
@@ -89,6 +95,28 @@ public class Utility {
                 }
             }
         }
+    }
+
+    public static String getPath(Context context, Uri uri) throws URISyntaxException {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "data"};
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+            }
+        }
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
     }
 
 }
