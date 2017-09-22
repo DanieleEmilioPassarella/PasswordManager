@@ -31,7 +31,7 @@
     <string name="recoverpin_newPin_hint">New PIN</string>
     <string name="recoverpin_title">Secret Question</string>
     <string name="setting_button_changeColorTheme">Change Theme</string>
-    <string name="setting_button_export">Export Password</string>
+    <string name="setting_button_export">Export DB File</string>
     <string name="setting_button_resetPin">Reset PIN</string>
     <string name="setting_newpin_hint">New PIN</string>
     <string name="setting_oldpin_hint">Old PIN</string>
@@ -54,4 +54,18 @@
     <string name="menu_category_title">Modify Categories</string>
     <string name="menu_password_title">Add New Password</string>
     <string name="menu_settings_title">Settings</string>
+    <string name="setting_button_exportTXT">Share Password File (Not Recomended)</string>
+    <string name="setting_alert_import_title">Import Database from file</string>
+    <string name="setting_alert_import_message">Attenction! This operation is irreversible. The operation will delete the current database!</string>
+    <string name="generic_yesMessage">Yes</string>
+    <string name="tutorial_setting_btnResetPin_title">Reset PIN</string>
+    <string name="tutorial_setting_btnResetPin_message">This button allow you to reset old pin with new one.</string>
+    <string name="tutorial_setting_btnChangeTheme_title">Change Theme</string>
+    <string name="tutorial_setting_btnChangeTheme_message">This button allow you to change the app\'s theme. Choose the one you prefer!</string>
+    <string name="tutorial_setting_btnExport_title">Save Database File</string>
+    <string name="tutorial_setting_btnExport_message">Save your database. This allow you to replicate password in another device.</string>
+    <string name="tutorial_setting_btnImport_title">Import Database</string>
+    <string name="tutorial_setting_btnImport_message">Import database from file. Attenction this operation will delete the current database. Make sure you have saved it.</string>
+    <string name="tutorial_setting_btnShare_title">Share Password</string>
+    <string name="tutorial_setting_btnShare_message">You can share passwords with your contact. Please don\'t share with unknow people.</string>
 </resources>

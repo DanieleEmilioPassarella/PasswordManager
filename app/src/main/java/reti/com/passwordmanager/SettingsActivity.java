@@ -50,6 +50,8 @@ import reti.com.passwordmanager.models.DaoSession;
 import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
 import reti.com.passwordmanager.utility.Utility;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -59,6 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonChangeTheme;
     private Button buttonExportPassword;
     private Button buttonImportPassword;
+    private Button buttonSharePasswordFile;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -86,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonChangeTheme = (Button) findViewById(R.id.bt_changeTheme);
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
         buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
+        buttonSharePasswordFile = (Button) findViewById(R.id.setting_btn_exportTXT);
         pinView = (LinearLayout) findViewById(R.id.setting_linearlayout_pin);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
@@ -166,20 +170,53 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getApplicationContext(), HomeActivity.DB_FILE);
-                Database db = helper.getWritableDb();
 
                 // get db file path
                 File dbFile = new File(helper.getWritableDatabase().getPath());
-                // TODO: write dbFile to external storage
                 // save db file to external storage to share it
                 try {
                     File externalDBFile = new File(getExternalFilesDir(null), HomeActivity.DB_FILE);
                     Utility.copyFile(new FileInputStream(dbFile), new FileOutputStream(externalDBFile));
+                    Snackbar.make(findViewById(R.id.setting_scrollview),"Database File successful exported!",Snackbar.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Snackbar.make(findViewById(R.id.setting_scrollview),"No one Database File, re-install application!",Snackbar.LENGTH_LONG).show();
                 }
 
+            }
+        });
 
+        // import password from filepath
+        buttonImportPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder alertShowPassword = new AlertDialog.Builder(SettingsActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
+                alertShowPassword
+                        .setTitle(R.string.setting_alert_import_title)
+                        .setMessage(R.string.setting_alert_import_message)
+                        .setPositiveButton(R.string.generic_yesMessage, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // make file chooser dialog & import db file if exist
+                                showFileChooser();
+                            }
+                        })
+                        .setNegativeButton(R.string.generic_cancelMessage, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        buttonSharePasswordFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getApplicationContext(), HomeActivity.DB_FILE);
+                Database db = helper.getWritableDb();
                 DaoSession daoSession = new DaoMaster(db).newSession();
 
                 // retrieve all password from all categories
@@ -236,19 +273,10 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-
             }
         });
 
-        // import password from filepath
-        buttonImportPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // make file chooser dialog & import db file if exist
-                showFileChooser();
-            }
-        });
-
+        setTutorialInfo();
 
     } // END onCreate()
 
@@ -265,7 +293,7 @@ public class SettingsActivity extends AppCompatActivity {
                         if(pathFile.getName().equals(HomeActivity.DB_FILE)){
                             try {
                                 FileInputStream fis = new FileInputStream(path);
-                                FileOutputStream fos = openFileOutput(HomeActivity.DB_FILE, MODE_PRIVATE);
+                                FileOutputStream fos = new FileOutputStream(getDatabasePath(HomeActivity.DB_FILE));
                                 Utility.copyFile(fis,fos);
                                 Snackbar.make(findViewById(R.id.setting_scrollview),"File import successful imported!",Snackbar.LENGTH_LONG).show();
                             }catch (IOException e){
@@ -486,6 +514,25 @@ public class SettingsActivity extends AppCompatActivity {
             disableConfirmResetPinButton();
             return null;
         }
+    }
+
+    private void setTutorialInfo() {
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(200);
+
+        String confirmButton = getString(R.string.generic_tutorial_confirmButton);
+
+        MaterialShowcaseSequence tutorialSequence = new MaterialShowcaseSequence(this,"SHOWCASE_ID");
+        tutorialSequence.setConfig(config);
+
+        tutorialSequence.addSequenceItem(buttonResetPin,getString(R.string.tutorial_setting_btnResetPin_title),getString(R.string.tutorial_setting_btnResetPin_message),confirmButton);
+        tutorialSequence.addSequenceItem(buttonChangeTheme,getString(R.string.tutorial_setting_btnChangeTheme_title),getString(R.string.tutorial_setting_btnChangeTheme_message),confirmButton);
+        tutorialSequence.addSequenceItem(buttonExportPassword,getString(R.string.tutorial_setting_btnExport_title),getString(R.string.tutorial_setting_btnExport_message),confirmButton);
+        tutorialSequence.addSequenceItem(buttonImportPassword,getString(R.string.tutorial_setting_btnImport_title),getString(R.string.tutorial_setting_btnImport_message),confirmButton);
+        tutorialSequence.addSequenceItem(buttonSharePasswordFile,getString(R.string.tutorial_setting_btnShare_title),getString(R.string.tutorial_setting_btnShare_message),confirmButton);
+
+        tutorialSequence.start();
     }
 
 }

@@ -92,6 +92,20 @@
     <string name="menu_category_title">Modifica Categorie</string>
     <string name="menu_password_title">Aggiungi Password</string>
     <string name="menu_settings_title">Impostazioni</string>
+    <string name="setting_button_exportTXT">Condividi Password (NON RACCOMANDATO)</string>
+    <string name="setting_alert_import_title">Importa Database da File</string>
+    <string name="setting_alert_import_message">Attenzione! questa operazione è irreversibile. Cancellerà il database esistente!</string>
+    <string name="generic_yesMessage">OK</string>
+    <string name="tutorial_setting_btnResetPin_title">Resetta PIN</string>
+    <string name="tutorial_setting_btnResetPin_message">Questo pulsante ti permette di resettare il vecchio pin con uno nuovo.</string>
+    <string name="tutorial_setting_btnChangeTheme_title">Cambia Tema</string>
+    <string name="tutorial_setting_btnChangeTheme_message">Questo pulsante ti permette di cambiare il tema dell\'applicazione. Scegli il tuo preferito!</string>
+    <string name="tutorial_setting_btnExport_title">Salva Database</string>
+    <string name="tutorial_setting_btnExport_message">Salvando il database dell\'applicazione potrai avere le tue password sincronizzate su un altro dispositivo.</string>
+    <string name="tutorial_setting_btnImport_title">Importa Database</string>
+    <string name="tutorial_setting_btnImport_message">Importa il database da un file. Attenzione questa operazione cancellerà il database corrente. Assicurati di averlo salvato!</string>
+    <string name="tutorial_setting_btnShare_title">Condividi Password</string>
+    <string name="tutorial_setting_btnShare_message">Puoi condividere tutte le password che hai salvato con un tuo contatto. Attenzione non condividere questo file con persone sconosciute.</string>
 
 
 </resources>

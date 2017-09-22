@@ -470,8 +470,6 @@ public class HomeActivity extends AppCompatActivity {
         tutorialSequence.addSequenceItem(spinnerCategory,getString(R.string.tutorial_home_category_title),getString(R.string.tutorial_home_category_message),confirmButton);
         tutorialSequence.addSequenceItem(findEditText,getString(R.string.tutorial_home_findbar_title),getString(R.string.tutorial_home_findbar_message),confirmButton);
 
-
-
         tutorialSequence.start();
     }
 }
