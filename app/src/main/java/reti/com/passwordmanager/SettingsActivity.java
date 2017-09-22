@@ -11,12 +11,14 @@ import android.net.Uri;
 import android.os.Debug;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -249,27 +251,30 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void showFileChooser() {
 
+        // make chooser file for user
         new ChooserDialog().with(this)
                 .withStartFile(getExternalFilesDir(null).getPath())
                 .withChosenListener(new ChooserDialog.Result() {
                     @Override
                     public void onChoosePath(String path, File pathFile) {
-                        path.toString();
+                        // when file is selected check filename
+                        if(pathFile.getName().equals(HomeActivity.DB_FILE)){
+                            try {
+                                FileInputStream fis = new FileInputStream(path);
+                                FileOutputStream fos = openFileOutput(HomeActivity.DB_FILE, MODE_PRIVATE);
+                                Utility.copyFile(fis,fos);
+                                Snackbar.make(findViewById(R.id.constraintLayout2),"File import successful imported!",Snackbar.LENGTH_LONG).show();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                                Snackbar.make(findViewById(R.id.constraintLayout2),"Invalid File path!",Snackbar.LENGTH_LONG).show();
+                            }
+                        }else {
+                            Snackbar.make(findViewById(R.id.constraintLayout2),"File not supported!",Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 })
                 .build()
                 .show();
-
-//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//        intent.setType("*/*");      //all files
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-//        try {
-//            startActivityForResult(Intent.createChooser(intent, "Select DB_FILE_PASSWORD"), Utility.ACTIVITY_RESULT_IMPORT_FILE_INTENT);
-//        } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
-//            Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
-//        }
 
     }
 
