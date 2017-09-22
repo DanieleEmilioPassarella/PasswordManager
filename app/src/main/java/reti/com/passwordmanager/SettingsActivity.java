@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Boolean validatorNewPin1 = false;
     private Boolean validatorNewPin2 = false;
     private Context selfContext;
+    private LinearLayout pinView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -83,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonChangeTheme = (Button) findViewById(R.id.bt_changeTheme);
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
         buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
+        pinView = (LinearLayout) findViewById(R.id.setting_linearlayout_pin);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
         et_newPin2 = (EditText) findViewById(R.id.newPinET2);
@@ -263,13 +267,13 @@ public class SettingsActivity extends AppCompatActivity {
                                 FileInputStream fis = new FileInputStream(path);
                                 FileOutputStream fos = openFileOutput(HomeActivity.DB_FILE, MODE_PRIVATE);
                                 Utility.copyFile(fis,fos);
-                                Snackbar.make(findViewById(R.id.constraintLayout2),"File import successful imported!",Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(findViewById(R.id.setting_scrollview),"File import successful imported!",Snackbar.LENGTH_LONG).show();
                             }catch (IOException e){
                                 e.printStackTrace();
-                                Snackbar.make(findViewById(R.id.constraintLayout2),"Invalid File path!",Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(findViewById(R.id.setting_scrollview),"Invalid File path!",Snackbar.LENGTH_LONG).show();
                             }
                         }else {
-                            Snackbar.make(findViewById(R.id.constraintLayout2),"File not supported!",Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(findViewById(R.id.setting_scrollview),"File not supported!",Snackbar.LENGTH_LONG).show();
                         }
                     }
                 })
@@ -308,6 +312,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void hideResetPinView() {
+        pinView.setVisibility(View.GONE);
         buttonConfirmPin.setVisibility(View.GONE);
         disableConfirmResetPinButton();
         et_oldPin.setVisibility(View.GONE);
@@ -322,6 +327,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showResetPinView() {
+        pinView.setVisibility(View.VISIBLE);
         buttonConfirmPin.setVisibility(View.VISIBLE);
         et_oldPin.setVisibility(View.VISIBLE);
         et_newPin1.setVisibility(View.VISIBLE);
