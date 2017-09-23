@@ -68,4 +68,5 @@
     <string name="tutorial_setting_btnImport_message">Importa il database da un file. Attenzione questa operazione cancellerà il database corrente. Assicurati di averlo salvato!</string>
     <string name="tutorial_setting_btnShare_title">Condividi Password</string>
     <string name="tutorial_setting_btnShare_message">Puoi condividere tutte le password che hai salvato con un tuo contatto. Attenzione non condividere questo file con persone sconosciute.</string>
+    <string name="setting_btnTuttorial">Tutorial</string>
 </resources>

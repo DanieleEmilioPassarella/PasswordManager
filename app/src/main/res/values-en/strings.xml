@@ -68,4 +68,5 @@
     <string name="tutorial_setting_btnImport_message">Import database from file. Attenction this operation will delete the current database. Make sure you have saved it.</string>
     <string name="tutorial_setting_btnShare_title">Share Password</string>
     <string name="tutorial_setting_btnShare_message">You can share passwords with your contact. Please don\'t share with unknow people.</string>
+    <string name="setting_btnTuttorial">Tutorial</string>
 </resources>

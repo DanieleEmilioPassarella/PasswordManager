@@ -3,6 +3,8 @@ package reti.com.passwordmanager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,9 +37,12 @@ import reti.com.passwordmanager.models.DaoMaster;
 import reti.com.passwordmanager.models.DaoSession;
 import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
+import reti.com.passwordmanager.utility.RoundedRectangleShape;
 import reti.com.passwordmanager.utility.Utility;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+import uk.co.deanwild.materialshowcaseview.shape.Shape;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -461,6 +466,10 @@ public class HomeActivity extends AppCompatActivity {
 
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500);
+        config.setFadeDuration(100);
+
+        int colorMask =  ColorUtils.setAlphaComponent(getResources().getColor(R.color.colorPrimaryDark),210);
+        config.setMaskColor(colorMask);
 
         String confirmButton = getString(R.string.generic_tutorial_confirmButton);
 
@@ -468,6 +477,10 @@ public class HomeActivity extends AppCompatActivity {
         tutorialSequence.setConfig(config);
 
         tutorialSequence.addSequenceItem(spinnerCategory,getString(R.string.tutorial_home_category_title),getString(R.string.tutorial_home_category_message),confirmButton);
+
+        Shape shape = new RoundedRectangleShape(50,50);
+        config.setShape(shape);
+
         tutorialSequence.addSequenceItem(findEditText,getString(R.string.tutorial_home_findbar_title),getString(R.string.tutorial_home_findbar_message),confirmButton);
 
         tutorialSequence.start();

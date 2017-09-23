@@ -7,11 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Debug;
 import android.os.Environment;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,9 +52,12 @@ import reti.com.passwordmanager.models.DaoMaster;
 import reti.com.passwordmanager.models.DaoSession;
 import reti.com.passwordmanager.models.PasswordEntry;
 import reti.com.passwordmanager.models.PasswordEntryDao;
+import reti.com.passwordmanager.utility.RoundedRectangleShape;
 import reti.com.passwordmanager.utility.Utility;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+import uk.co.deanwild.materialshowcaseview.shape.Shape;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -62,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonExportPassword;
     private Button buttonImportPassword;
     private Button buttonSharePasswordFile;
+    private Button buttonTutorial;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -90,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
         buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
         buttonSharePasswordFile = (Button) findViewById(R.id.setting_btn_exportTXT);
+        buttonTutorial = (Button) findViewById(R.id.setting_btn_tutorial);
         pinView = (LinearLayout) findViewById(R.id.setting_linearlayout_pin);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
@@ -273,6 +281,13 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+            }
+        });
+
+        buttonTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -519,11 +534,17 @@ public class SettingsActivity extends AppCompatActivity {
     private void setTutorialInfo() {
 
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(200);
+        config.setDelay(100);
+        config.setFadeDuration(100);
+        Shape shape = new RoundedRectangleShape(50,50);
+        config.setShape(shape);
+
+        int colorMask =  ColorUtils.setAlphaComponent(getResources().getColor(R.color.colorPrimaryDark),210);
+        config.setMaskColor(colorMask);
 
         String confirmButton = getString(R.string.generic_tutorial_confirmButton);
 
-        MaterialShowcaseSequence tutorialSequence = new MaterialShowcaseSequence(this,"SHOWCASE_ID");
+        MaterialShowcaseSequence tutorialSequence = new MaterialShowcaseSequence(this,"SETTING_SHOWCASE");
         tutorialSequence.setConfig(config);
 
         tutorialSequence.addSequenceItem(buttonResetPin,getString(R.string.tutorial_setting_btnResetPin_title),getString(R.string.tutorial_setting_btnResetPin_message),confirmButton);

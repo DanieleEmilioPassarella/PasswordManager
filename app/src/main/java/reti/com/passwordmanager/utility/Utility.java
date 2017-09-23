@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.graphics.ColorUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.Pair;
