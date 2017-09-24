@@ -28,6 +28,9 @@ public class FilterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // set current theme
+        Utility.setCurrentTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
 

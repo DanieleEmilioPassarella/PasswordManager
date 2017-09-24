@@ -175,16 +175,6 @@
             android:layout_marginTop="32dp"
             android:text="@string/setting_button_exportTXT" />
 
-        <Button
-            android:id="@+id/setting_btn_tutorial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/setting_btnTuttorial" />
-
     </LinearLayout>
 
 </ScrollView>

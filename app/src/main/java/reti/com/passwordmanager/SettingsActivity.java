@@ -68,7 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonExportPassword;
     private Button buttonImportPassword;
     private Button buttonSharePasswordFile;
-    private Button buttonTutorial;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -97,7 +96,6 @@ public class SettingsActivity extends AppCompatActivity {
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
         buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
         buttonSharePasswordFile = (Button) findViewById(R.id.setting_btn_exportTXT);
-        buttonTutorial = (Button) findViewById(R.id.setting_btn_tutorial);
         pinView = (LinearLayout) findViewById(R.id.setting_linearlayout_pin);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
@@ -151,10 +149,11 @@ public class SettingsActivity extends AppCompatActivity {
                         disableConfirmResetPinButton();
                         hideResetPinView();
                         if (LoginActivity.setNewPin(newPin)) {
-                            Toast.makeText(getApplicationContext(), "Pin Updated", Toast.LENGTH_LONG).show();
+                            Snackbar.make(findViewById(R.id.setting_linearlayout_main),R.string.setting_alert_pinUpdated,Snackbar.LENGTH_LONG).show();
                             enableResetPinButton();
                         } else {
                             Log.d("NewPasswordSetter", "writing new pin failed");
+                            Snackbar.make(findViewById(R.id.setting_linearlayout_main),R.string.setting_alert_pinNotUpdated,Snackbar.LENGTH_LONG).show();
                             Toast.makeText(getApplicationContext(), "Pin Updated", Toast.LENGTH_LONG).show();
                         }
                     } else {
@@ -281,13 +280,6 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-            }
-        });
-
-        buttonTutorial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 

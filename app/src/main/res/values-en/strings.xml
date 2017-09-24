@@ -69,4 +69,6 @@
     <string name="tutorial_setting_btnShare_title">Share Password</string>
     <string name="tutorial_setting_btnShare_message">You can share passwords with your contact. Please don\'t share with unknow people.</string>
     <string name="setting_btnTuttorial">Tutorial</string>
+    <string name="setting_alert_pinUpdated">PIN Updated</string>
+    <string name="setting_alert_pinNotUpdated">PIN not updated</string>
 </resources>
