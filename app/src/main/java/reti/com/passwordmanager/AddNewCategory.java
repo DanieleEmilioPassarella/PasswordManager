@@ -37,6 +37,13 @@ public class AddNewCategory extends AppCompatActivity {
     private Button bt_createCategory,bt_deleteCategory;
     private Spinner spinnerCategory;
 
+    private Spinner firstCategory;
+    private Spinner secondCategory;
+    private Button moveButton;
+    private ImageView iv_firstCategory;
+    private ImageView iv_secondCategory;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,9 +59,22 @@ public class AddNewCategory extends AppCompatActivity {
         bt_deleteCategory = (Button) findViewById(R.id.bt_deleteCategory);
         spinnerCategory = (Spinner) findViewById(R.id.sp_category_manageCategory);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
-                getAllCategory());
-        spinnerCategory.setAdapter(spinnerAdapter);
+        firstCategory = (Spinner) findViewById(R.id.sp_firstCategory);
+        secondCategory = (Spinner) findViewById(R.id.sp_secondCategory);
+        moveButton = (Button) findViewById(R.id.btn_copy);
+        iv_firstCategory =  (ImageView) findViewById(R.id.iv_firstCategory);
+        iv_firstCategory = (ImageView)  findViewById(R.id.iv_secondCategory);
+
+
+        // set default button not enabled
+        disableCreate();
+        disableDelete();
+        disableMove();
+        disableSecondCategory();
+
+        // set spinner data
+        setDeleteSpinner();
+        setFirstCategorySpinner();
 
         spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -63,8 +83,10 @@ public class AddNewCategory extends AppCompatActivity {
                 if(!category.equals("Default")){
                     iv_category_delete.setImageResource(R.drawable.ic_check);
                     bt_deleteCategory.setFocusable(true);
+                    enableDelete();
                 }else{
                     iv_category_delete.setImageResource(R.drawable.ic_unchecked);
+                    disableDelete();
                 }
             }
 
@@ -88,6 +110,7 @@ public class AddNewCategory extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 iv_category_create.setImageResource(R.drawable.ic_update);
+                enableCreate();
             }
         });
 
@@ -135,7 +158,115 @@ public class AddNewCategory extends AppCompatActivity {
             }
         });
 
+        firstCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String category = firstCategory.getItemAtPosition(position).toString();
+                if(! category.equals("Default")){
+                    setSecondCategorySpinner();
+                    enableSecondCategory();
+                }else{
+                    disableMove();
+                    disableSecondCategory();
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        secondCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String firstCategorySelected = firstCategory.getItemAtPosition(firstCategory.getSelectedItemPosition()).toString();
+                String secondCategorySelected = secondCategory.getItemAtPosition(position).toString();
+                if(firstCategorySelected.equals(secondCategorySelected)){
+                    disableMove();
+                }else {
+                    enableMove();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        moveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder alertShowPassword = new AlertDialog.Builder(AddNewCategory.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
+                alertShowPassword
+                        .setTitle(R.string.category_alert_move_title)
+                        .setMessage(R.string.category_alert_move_message)
+                        .setPositiveButton(R.string.generic_yesMessage, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            // TODO: implements move logics
+                            }
+                        })
+                        .setNegativeButton(R.string.generic_cancelMessage, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+    } // END CREATE METHOD
+
+    private void setFirstCategorySpinner(){
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                getAllCategory());
+        firstCategory.setAdapter(spinnerAdapter);
+    }
+
+    private void setSecondCategorySpinner(){
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                getSecondCateogrySpinnerData());
+        secondCategory.setAdapter(spinnerAdapter);
+    }
+
+    private void setDeleteSpinner(){
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                getAllCategory());
+        spinnerCategory.setAdapter(spinnerAdapter);
+    }
+
+    private void enableSecondCategory(){
+        secondCategory.setEnabled(true);
+    }
+
+    private void disableSecondCategory(){
+        secondCategory.setEnabled(false);
+    }
+
+    private void enableMove(){
+        moveButton.setEnabled(true);
+    }
+
+    private void disableMove(){
+        moveButton.setEnabled(false);
+    }
+
+    private void enableCreate(){
+        bt_createCategory.setEnabled(true);
+    }
+
+    private void disableCreate(){
+        bt_createCategory.setEnabled(false);
+    }
+
+    private void enableDelete(){
+        bt_deleteCategory.setEnabled(true);
+    }
+
+    private void disableDelete(){
+        bt_deleteCategory.setEnabled(false);
     }
 
     private void createCategory(String category){
@@ -156,6 +287,24 @@ public class AddNewCategory extends AppCompatActivity {
         List<CategoryEntry> entryList = categoryEntryDao.loadAll();
         for(CategoryEntry entry: entryList){
             result.add(entry.category);
+        }
+        return result;
+    }
+
+    private ArrayList<String> getSecondCateogrySpinnerData(){
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,HomeActivity.DB_FILE);
+        Database db = helper.getWritableDb();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+        CategoryEntryDao categoryEntryDao = daoSession.getCategoryEntryDao();
+        ArrayList<String> result = new ArrayList<>();
+        List<CategoryEntry> entryList = categoryEntryDao.loadAll();
+        // TODO: remove from datasource first selection from spinner first category
+        //CategoryEntry selectedItemFromMove = (CategoryEntry) firstCategory.getAdapter().getItem(firstCategory.getSelectedItemPosition());
+
+        for(CategoryEntry entry: entryList){
+          //  if(entry != selectedItemFromMove) {
+                result.add(entry.category);
+          //  }
         }
         return result;
     }

@@ -71,4 +71,8 @@
     <string name="setting_btnTuttorial">Tutorial</string>
     <string name="setting_alert_pinUpdated">PIN Updated</string>
     <string name="setting_alert_pinNotUpdated">PIN not updated</string>
+    <string name="category_moveButton">Move</string>
+    <string name="category_alert_move_title">Move password</string>
+    <string name="category_alert_move_message">Attenction! This operation is irreversible. All passwords will be relocated!</string>
+    <string name="category_moveText">Move to</string>
 </resources>

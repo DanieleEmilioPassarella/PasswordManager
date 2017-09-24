@@ -109,6 +109,10 @@
     <string name="setting_btnTuttorial">Tutorial</string>
     <string name="setting_alert_pinUpdated">PIN Aggiornato</string>
     <string name="setting_alert_pinNotUpdated">PIN non aggiornato</string>
+    <string name="category_moveButton">Sposta</string>
+    <string name="category_alert_move_title">Sposta password</string>
+    <string name="category_alert_move_message">Attenzione! Questa operazione è irreversibile. Tutte le password verranno spostate!</string>
+    <string name="category_moveText">Sposta in</string>
 
 
 </resources>
