@@ -154,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
                 AlertDialog.Builder alerRemoveItem = new AlertDialog.Builder(HomeActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
                 alerRemoveItem
                         .setTitle(R.string.home_deletePassword_title)
-                        .setMessage("Dominio: "+itemClicked.dominio+"\r\nUsername: "+itemClicked.username)
+                        .setMessage("Dominio: "+itemClicked.getDominio()+"\r\nUsername: "+itemClicked.getUsername())
                         .setPositiveButton(R.string.generic_deleteMessage, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -416,9 +416,9 @@ public class HomeActivity extends AppCompatActivity {
     private void removeFromDb(PasswordEntry pe){
         DeleteQuery<PasswordEntry> tableDeleteQuery = daoSession.queryBuilder(PasswordEntry.class)
                 .where(
-                PasswordEntryDao.Properties.Dominio.eq(pe.dominio),
-                PasswordEntryDao.Properties.Username.eq(pe.username),
-                PasswordEntryDao.Properties.Password.eq(pe.password)
+                PasswordEntryDao.Properties.Dominio.eq(pe.getDominio()),
+                PasswordEntryDao.Properties.Username.eq(pe.getUsername()),
+                PasswordEntryDao.Properties.Password.eq(pe.getPassword())
         ).buildDelete();
         tableDeleteQuery.executeDeleteWithoutDetachingEntities();
         daoSession.clear();

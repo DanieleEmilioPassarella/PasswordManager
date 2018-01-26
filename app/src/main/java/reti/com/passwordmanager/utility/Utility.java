@@ -12,9 +12,14 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.util.Pair;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 
@@ -22,7 +27,7 @@ import reti.com.passwordmanager.R;
 
 public class Utility {
 
-    public static String PASSWORD_MANAGER_FILE = "PasswordManager.txt";
+    public static String PASSWORD_MANAGER_FILE = "PasswordManager.csv";
     public static String THEME_SHARED_PREFERENCES = "THEME";
     public static String CURRENT_THEME_KEY = "CURRENT_THEME";
 
@@ -96,6 +101,47 @@ public class Utility {
                 }
             }
         }
+    }
+
+    static public void writeToFile(String data, Context context){
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    public static String readFromFile(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput("config.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
     }
 
 }

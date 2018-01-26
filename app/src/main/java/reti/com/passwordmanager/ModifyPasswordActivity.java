@@ -55,7 +55,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
 
         Intent homeIntent = getIntent();
         itemToModify = (PasswordEntry) homeIntent.getSerializableExtra(HomeActivity.ITEM_TO_MODIFY);
-        categoryOfOldItem = itemToModify.category;
+        categoryOfOldItem = itemToModify.getCategory();
 
         et_domain_modify = (EditText) findViewById(R.id.et_domain_modify);
         et_username_modify = (EditText) findViewById(R.id.et_username_modify);
@@ -141,7 +141,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                 AlertDialog.Builder alertShowPassword = new AlertDialog.Builder(ModifyPasswordActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
                 alertShowPassword
                         .setTitle("Modifica Password")
-                        .setMessage("Categoria: "+newItem.category+"\r\nDominio: "+newItem.dominio+"\r\nUsername: "+newItem.getUsername()+"\r\nPassword: "+newItem.getPassword())
+                        .setMessage("Categoria: "+newItem.getCategory()+"\r\nDominio: "+newItem.getDominio()+"\r\nUsername: "+newItem.getUsername()+"\r\nPassword: "+newItem.getPassword())
                         .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -236,9 +236,9 @@ public class ModifyPasswordActivity extends AppCompatActivity {
 
         DeleteQuery<PasswordEntry> tableDeleteQuery = daoSession.queryBuilder(PasswordEntry.class)
                 .where(
-                        PasswordEntryDao.Properties.Dominio.eq(oldItem.dominio),
-                        PasswordEntryDao.Properties.Username.eq(oldItem.username),
-                        PasswordEntryDao.Properties.Password.eq(oldItem.password)
+                        PasswordEntryDao.Properties.Dominio.eq(oldItem.getDominio()),
+                        PasswordEntryDao.Properties.Username.eq(oldItem.getUsername()),
+                        PasswordEntryDao.Properties.Password.eq(oldItem.getPassword())
                 ).buildDelete();
         tableDeleteQuery.executeDeleteWithoutDetachingEntities();
         daoSession.clear();

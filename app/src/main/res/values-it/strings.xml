@@ -35,7 +35,7 @@
     <string name="setting_button_resetPin">Resetta PIN</string>
     <string name="setting_newpin_hint">Nuovo PIN</string>
     <string name="setting_oldpin_hint">Vecchio PIN</string>
-    <string name="setting_button_import">Importa Password</string>
+    <string name="setting_button_import">Importa Database File</string>
     <string name="filter_order_text">Ordina per:</string>
     <string name="filter_sorting_text">Ordinamento:</string>
     <string name="generic_applyMessage">Applica</string>
@@ -54,7 +54,7 @@
     <string name="menu_category_title">Modifica Categorie</string>
     <string name="menu_password_title">Aggiungi Password</string>
     <string name="menu_settings_title">Impostazioni</string>
-    <string name="setting_button_exportTXT">Condividi Password (Non Raccomandato)</string>
+    <string name="setting_button_exportTXT">Esporta Password (CSV)</string>
     <string name="setting_alert_import_title">Importa Database da file</string>
     <string name="setting_alert_import_message">Attenzione! Questa operazione è irreversibile. Cancellerà il database esistente!</string>
     <string name="generic_yesMessage">OK</string>
@@ -75,4 +75,5 @@
     <string name="category_alert_move_title">Sposta password</string>
     <string name="category_alert_move_message">Attenzione! Questa operazione è irreversibile. Tutte le password verranno spostate!</string>
     <string name="category_moveText">Sposta in</string>
+    <string name="setting_button_importTXT">Importa Password (CSV)</string>
 </resources>

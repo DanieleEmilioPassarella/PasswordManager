@@ -92,7 +92,7 @@
     <string name="menu_category_title">Modifica Categorie</string>
     <string name="menu_password_title">Aggiungi Password</string>
     <string name="menu_settings_title">Impostazioni</string>
-    <string name="setting_button_exportTXT">Condividi Password (NON RACCOMANDATO)</string>
+    <string name="setting_button_exportTXT">Condividi Password (CSV)</string>
     <string name="setting_alert_import_title">Importa Database da File</string>
     <string name="setting_alert_import_message">Attenzione! questa operazione è irreversibile. Cancellerà il database esistente!</string>
     <string name="generic_yesMessage">OK</string>
@@ -113,6 +113,7 @@
     <string name="category_alert_move_title">Sposta password</string>
     <string name="category_alert_move_message">Attenzione! Questa operazione è irreversibile. Tutte le password verranno spostate!</string>
     <string name="category_moveText">Sposta in</string>
+    <string name="setting_button_importTXT">Importa Password (CSV)</string>
 
 
 </resources>

@@ -205,6 +205,7 @@ public class AddNewCategory extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             // TODO: implements move logics
+                                movePassword();
                             }
                         })
                         .setNegativeButton(R.string.generic_cancelMessage, new DialogInterface.OnClickListener() {
@@ -298,15 +299,31 @@ public class AddNewCategory extends AppCompatActivity {
         CategoryEntryDao categoryEntryDao = daoSession.getCategoryEntryDao();
         ArrayList<String> result = new ArrayList<>();
         List<CategoryEntry> entryList = categoryEntryDao.loadAll();
-        // TODO: remove from datasource first selection from spinner first category
-        //CategoryEntry selectedItemFromMove = (CategoryEntry) firstCategory.getAdapter().getItem(firstCategory.getSelectedItemPosition());
+        // get first category selected
+        String firstCategorySelected = firstCategory.getItemAtPosition(firstCategory.getSelectedItemPosition()).toString();
 
         for(CategoryEntry entry: entryList){
-          //  if(entry != selectedItemFromMove) {
+            if(! entry.category.equals(firstCategorySelected)) {
                 result.add(entry.category);
-          //  }
+            }
         }
         return result;
+    }
+
+    private void movePassword(){
+        String firstCategorySelected = firstCategory.getItemAtPosition(firstCategory.getSelectedItemPosition()).toString();
+        String secondCategorySelected = secondCategory.getItemAtPosition(secondCategory.getSelectedItemPosition()).toString();
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,HomeActivity.DB_FILE);
+        Database db = helper.getWritableDb();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+        PasswordEntryDao passwordEntryDao = daoSession.getPasswordEntryDao();
+        List<PasswordEntry> passwords = passwordEntryDao.queryBuilder().where(PasswordEntryDao.Properties.Category.eq(firstCategorySelected)).list();
+        for(PasswordEntry password: passwords){
+            password.setCategory(secondCategorySelected);
+            passwordEntryDao.update(password);
+        }
+
+        //daoSession.clear();
     }
 
     private void removeCategoryFromDB(String category){

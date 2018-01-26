@@ -1,16 +1,25 @@
 package reti.com.passwordmanager.models;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-@Entity @Keep
+@Entity
 public class PasswordEntry implements Serializable{
 
-    @NotNull
+    @Id(autoincrement = true)
+    private long id;
+
+    @Index
+    private String dominio, username,password,category;
+
+/*    @NotNull
     public String dominio;
     @NotNull
     public String username;
@@ -18,20 +27,27 @@ public class PasswordEntry implements Serializable{
     public String password;
 
     public String category;
-
-
-    public PasswordEntry(String dominio,String username,String password){
-        this.dominio = dominio;
-        this.username=username;
-        this.password=password;
-        this.category = "Default";
-    }
+*/
 
     public PasswordEntry(String dominio,String username,String password,String category){
         this.dominio = dominio;
         this.username=username;
         this.password=password;
         this.category = category;
+    }
+
+    @Generated(hash = 932369869)
+    public PasswordEntry(long id, String dominio, String username, String password,
+            String category) {
+        this.id = id;
+        this.dominio = dominio;
+        this.username = username;
+        this.password = password;
+        this.category = category;
+    }
+
+    @Generated(hash = 747656931)
+    public PasswordEntry() {
     }
 
     public String getDominio(){
@@ -53,4 +69,17 @@ public class PasswordEntry implements Serializable{
     }
     public void setPassword(String password){ this.password = password; }
     public void setCategory(String category){this.category = category;}
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

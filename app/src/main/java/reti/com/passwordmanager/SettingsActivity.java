@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -68,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button buttonExportPassword;
     private Button buttonImportPassword;
     private Button buttonSharePasswordFile;
+    private Button buttonImportPasswordCSV;
     private EditText et_oldPin;
     private EditText et_newPin1;
     private EditText et_newPin2;
@@ -96,6 +98,8 @@ public class SettingsActivity extends AppCompatActivity {
         buttonExportPassword = (Button) findViewById(R.id.bt_esportaPassword);
         buttonImportPassword = (Button) findViewById(R.id.setting_btn_import);
         buttonSharePasswordFile = (Button) findViewById(R.id.setting_btn_exportTXT);
+        buttonImportPasswordCSV = (Button) findViewById(R.id.setting_btn_importTXT);
+
         pinView = (LinearLayout) findViewById(R.id.setting_linearlayout_pin);
         et_oldPin = (EditText) findViewById(R.id.oldPinET);
         et_newPin1 = (EditText) findViewById(R.id.newPinET1);
@@ -236,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity {
                     FileOutputStream fos = openFileOutput(Utility.PASSWORD_MANAGER_FILE, MODE_PRIVATE);
 
                     for (PasswordEntry password : passwordEntryList) {
-                        String row = "Dominio: " + password.dominio + " - Username: " + password.username + " - Password: " + password.password + "\r\n";
+                        String row = password.getDominio() + "," + password.getUsername() + "," + password.getPassword() + "\r\n";
                         contentFile += row;
                         fos.write(row.getBytes());
                     }
@@ -261,16 +265,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 File externalFile = copyFileToExternal(Utility.PASSWORD_MANAGER_FILE, content);
                                 // send that file with email attachment
                                 Uri path = Uri.fromFile(externalFile);
-                                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                                // set the type to 'email'
-                                emailIntent.setType("vnd.android.cursor.dir/email");
-                                String to[] = {""};
-                                emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
-                                // the attachment
-                                emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-                                // the mail subject
-                                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Password File");
-                                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                                Snackbar.make(findViewById(R.id.setting_scrollview), path.toString(),Snackbar.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton("No, I don't", new DialogInterface.OnClickListener() {
@@ -283,10 +278,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        buttonImportPasswordCSV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChooserCSV();
+            }
+        });
+
+
         setTutorialInfo();
 
     } // END onCreate()
 
+
+    private void writeToExternalFilePassword(){
+        String pwd = "";
+        Utility.writeToFile(pwd,this.getApplicationContext());
+    }
 
     private void showFileChooser() {
 
@@ -315,6 +323,26 @@ public class SettingsActivity extends AppCompatActivity {
                 .build()
                 .show();
 
+    }
+
+    private void showChooserCSV(){
+        // make chooser file for user
+        new ChooserDialog().with(this)
+                .withStartFile(getExternalFilesDir(null).getPath())
+                .withChosenListener(new ChooserDialog.Result() {
+                    @Override
+                    public void onChoosePath(String path, File pathFile) {
+                        // when file is selected check filename
+                        try{
+                            FileInputStream fis = new FileInputStream(pathFile);
+                            // TODO read all CSV and make db
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .build()
+                .show();
     }
 
     private File copyFileToExternal(String fileName, String content) {

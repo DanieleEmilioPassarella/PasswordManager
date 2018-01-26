@@ -88,6 +88,8 @@ public class AddPasswordEntry extends AppCompatActivity {
                 blockEditText(true);
                 PasswordEntry newEntry = getPasswordEntryFromUI();
                 if(newEntry!=null) {
+
+                    newEntry.setId(newEntry.getId() + 1 );
                     daoPassword.insert(newEntry);
                     setResult(RESULT_OK);
                     finish();
